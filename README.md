@@ -1,2 +1,3 @@
-# library-template
-Template for library repositories 
+# chans
+
+Multimedia (Audio, Raster) Channel Newtypes and Conversions 
