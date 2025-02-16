@@ -7,6 +7,7 @@ macro_rules! ops_int {
         impl core::ops::Add for $ty {
             type Output = Self;
 
+            #[inline(always)]
             fn add(self, rhs: Self) -> Self {
                 Self(self.0.saturating_add(rhs.0))
             }
@@ -15,6 +16,7 @@ macro_rules! ops_int {
         impl core::ops::Sub for $ty {
             type Output = Self;
 
+            #[inline(always)]
             fn sub(self, rhs: Self) -> Self {
                 Self(self.0.saturating_sub(rhs.0))
             }
@@ -27,6 +29,7 @@ macro_rules! ops_float {
         impl core::ops::Add for $ty {
             type Output = Self;
 
+            #[inline(always)]
             fn add(self, rhs: Self) -> Self {
                 Self(self.0 + rhs.0)
             }
@@ -35,6 +38,7 @@ macro_rules! ops_float {
         impl core::ops::Sub for $ty {
             type Output = Self;
 
+            #[inline(always)]
             fn sub(self, rhs: Self) -> Self {
                 Self(self.0 - rhs.0)
             }

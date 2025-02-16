@@ -1,3 +1,3 @@
-# chans
+# P-Chan
 
-Multimedia (Audio, Raster) Channel Newtypes and Conversions 
+Multimedia (Audio, Raster) Channel Newtypes and Conversions
