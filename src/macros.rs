@@ -1,5 +1,15 @@
-macro_rules! ops_int {
-    ($ty: ident, $p: ty, $b: ty, $normalize: path) => {
+macro_rules! ch_int {
+    (
+        ($ty: ident, $p: ty, $b: ty, $normalize: path, $midpoint: item),
+        $docs: meta $(,)?
+    ) => {
+        #[$docs]
+        #[derive(
+            Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Default,
+        )]
+        #[repr(transparent)]
+        pub struct $ty($p);
+
         impl From<$p> for $ty {
             fn from(value: $p) -> Self {
                 Self::new(value)
@@ -16,7 +26,7 @@ macro_rules! ops_int {
             /// Maximum value
             pub const MAX: Self = Self::new(<$p>::MAX);
             /// Middle value
-            pub const MID: Self = Self::new(<$p>::MAX >> 1);
+            pub const MID: Self = Self::MAX.midpoint(Self::MIN);
             /// Minimum value
             pub const MIN: Self = Self::new(<$p>::MIN);
 
@@ -24,6 +34,8 @@ macro_rules! ops_int {
             pub const fn new(value: $p) -> Self {
                 Self(value)
             }
+
+            $midpoint
         }
 
         impl core::ops::Add for $ty {
@@ -79,6 +91,15 @@ macro_rules! ch_float {
             /// Create a new channel value.
             pub const fn new(value: $p) -> Self {
                 Self(value)
+            }
+
+            /// Calculates the middle point of `self` and `rhs`.
+            ///
+            /// `midpoint(a, b)` is `(a + b) / 2`.
+            pub const fn midpoint(self, rhs: Self) -> Self {
+                // Overflow is impossible since maximum value is 1 (would need
+                // to be over (float::MAX / 2.0)
+                Self((self.0 + rhs.0) / 2.0)
             }
         }
 
