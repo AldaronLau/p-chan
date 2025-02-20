@@ -1,12 +1,24 @@
 macro_rules! ops_int {
-    ($ty: ty, $p: ty, $b: ty, $normalize: path) => {
+    ($ty: ident, $p: ty, $b: ty, $normalize: path) => {
+        impl From<$p> for $ty {
+            fn from(value: $p) -> Self {
+                Self::new(value)
+            }
+        }
+
+        impl From<$ty> for $p {
+            fn from(chan: $ty) -> Self {
+                chan.0
+            }
+        }
+
         impl $ty {
-            /// Minimum value
-            pub const MIN: Self = Self::new(<$p>::MIN);
-            /// Middle value
-            pub const MID: Self = Self::new(<$p>::MAX >> 1);
             /// Maximum value
             pub const MAX: Self = Self::new(<$p>::MAX);
+            /// Middle value
+            pub const MID: Self = Self::new(<$p>::MAX >> 1);
+            /// Minimum value
+            pub const MIN: Self = Self::new(<$p>::MIN);
 
             /// Create a new channel value.
             pub const fn new(value: $p) -> Self {
@@ -34,15 +46,35 @@ macro_rules! ops_int {
     };
 }
 
-macro_rules! ops_float {
-    ($ty: ty, $p: ty, $normalize: path, $min: literal, $mid: literal) => {
+macro_rules! ch_float {
+    (
+        ($ty: ident, $p: ty, $normalize: path, $min: literal, $mid: literal),
+        $docs: meta $(,)?
+    ) => {
+        #[$docs]
+        #[derive(Copy, Clone, PartialEq, PartialOrd, Debug, Default)]
+        #[repr(transparent)]
+        pub struct $ty($p);
+
+        impl From<$p> for $ty {
+            fn from(value: $p) -> Self {
+                Self::new(value)
+            }
+        }
+
+        impl From<$ty> for $p {
+            fn from(chan: $ty) -> Self {
+                chan.0
+            }
+        }
+
         impl $ty {
-            /// Minimum value
-            pub const MIN: Self = Self::new($min);
-            /// Middle value
-            pub const MID: Self = Self::new($mid);
             /// Maximum value
             pub const MAX: Self = Self::new(1.0);
+            /// Middle value
+            pub const MID: Self = Self::new($mid);
+            /// Minimum value
+            pub const MIN: Self = Self::new($min);
 
             /// Create a new channel value.
             pub const fn new(value: $p) -> Self {
