@@ -93,13 +93,33 @@ macro_rules! ch_float {
                 Self(value)
             }
 
-            /// Calculates the middle point of `self` and `rhs`.
+            /// Calculates the middle point of `self` and `rhs` (clamped).
             ///
             /// `midpoint(a, b)` is `(a + b) / 2`.
             pub const fn midpoint(self, rhs: Self) -> Self {
                 // Overflow is impossible since maximum value is 1 (would need
                 // to be over (float::MAX / 2.0)
                 Self((self.0 + rhs.0) / 2.0)
+            }
+
+            /// Returns `max` if `self` is greater than `max`, and `min` if
+            /// `self` is less than `min`. Otherwise this returns `self`.
+            ///
+            /// Non-normal numbers are flushed to zero.
+            ///
+            /// # Panics
+            ///
+            /// Panics if `min > max`.
+            pub const fn clamp(self, min: Self, max: Self) {
+                // assert!(min <= max, "min > max");
+                
+                if self.0.to_bits() < min.0.to_bits() {
+                    min
+                } else if self.0.to_bits() > max.0.to_bits() {
+                    max
+                } else {
+                    self
+                }
             }
         }
 
