@@ -7,6 +7,11 @@ macro_rules! reinterpret {
             pub(super) const fn reinterpret(self) -> $to {
                 <$to>::from_ne_bytes(self.0.to_ne_bytes())
             }
+
+            #[inline(always)]
+            pub(super) const fn reinterpret_with_offset(self) -> $to {
+                self.reinterpret() ^ (1 << ($from::BITS - 1))
+            }
         }
     };
 }

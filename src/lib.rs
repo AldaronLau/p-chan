@@ -4,8 +4,9 @@
 //!
 //! The types provided by each module are `Ch8`, `Ch12`, `Ch16`, `Ch24` for
 //! integers, and `Ch32` and `Ch64` for floating-point.  Integer channels can
-//! not exceed their maximum value, while floating-point channels can.
-//! Floating-point channels can only ever be normal numbers.
+//! not exceed the range of their minimum and maximum values, while
+//! floating-point channels can.  Floating-point channels can only ever be
+//! normal numbers.
 
 #![no_std]
 #![deny(
@@ -50,16 +51,10 @@ pub mod signed {
             pub const fn midpoint(self, rhs: Self) -> Self {
                 use crate::conversions::{Signed, Unsigned};
 
-                let this =
-                    Unsigned(self.0.wrapping_sub(Self::MIN.0)).reinterpret();
-                let rhs =
-                    Unsigned(rhs.0.wrapping_sub(Self::MIN.0)).reinterpret();
+                let this = Unsigned(self.0).reinterpret_with_offset();
+                let rhs = Unsigned(rhs.0).reinterpret_with_offset();
 
-                Self(
-                    Signed(this.midpoint(rhs))
-                        .reinterpret()
-                        .wrapping_add(Self::MIN.0),
-                )
+                Self(Signed(this.midpoint(rhs)).reinterpret_with_offset())
             }
         };
     }

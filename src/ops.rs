@@ -17,20 +17,20 @@ pub struct Sum<T, const N: usize>(pub [T; N]);
 #[derive(Debug)]
 pub struct Product<T, const N: usize>(pub [T; N]);
 
-/// Constant conversion operation (`into`)
+/// Constant conversion operation (`convert`)
 ///
-///  - `Convert::<_, U>(_, []).into()`
+///  - `Conversion::<_, U>::convert(_)`
 #[derive(Debug)]
-pub struct Convert<T, U>(T, PhantomData<fn() -> U>);
+pub struct Conversion<T, U>(T, PhantomData<fn() -> U>);
 
 #[cfg(feature = "signed")]
 mod signed {
     use super::*;
     use crate::signed::{Ch8, Ch16, Ch32};
 
-    impl Convert<Ch8, Ch16> {
+    impl Conversion<Ch8, Ch16> {
         /// Convert between types.
-        pub const fn from(from: Ch8) -> Ch16 {
+        pub const fn convert(from: Ch8) -> Ch16 {
             let little = from.into_inner() as i16;
             let big = little * 256;
 
