@@ -32,7 +32,7 @@ macro_rules! ch_int {
 
             /// Create a new channel value.
             pub const fn new(value: $p) -> Self {
-                Self(value)
+                Self($normalize(value))
             }
 
             $midpoint
@@ -43,7 +43,7 @@ macro_rules! ch_int {
 
             #[inline(always)]
             fn add(self, rhs: Self) -> Self {
-                Self(self.0.saturating_add(rhs.0))
+                Self($normalize(self.0.saturating_add(rhs.0)))
             }
         }
 
@@ -52,7 +52,7 @@ macro_rules! ch_int {
 
             #[inline(always)]
             fn sub(self, rhs: Self) -> Self {
-                Self(self.0.saturating_sub(rhs.0))
+                Self($normalize(self.0.saturating_sub(rhs.0)))
             }
         }
     };
@@ -90,7 +90,7 @@ macro_rules! ch_float {
 
             /// Create a new channel value.
             pub const fn new(value: $p) -> Self {
-                Self(value)
+                Self($normalize(value))
             }
 
             /// Calculates the middle point of `self` and `rhs` (clamped).
@@ -99,27 +99,17 @@ macro_rules! ch_float {
             pub const fn midpoint(self, rhs: Self) -> Self {
                 // Overflow is impossible since maximum value is 1 (would need
                 // to be over (float::MAX / 2.0)
-                Self((self.0 + rhs.0) / 2.0)
+                Self($normalize((self.0 + rhs.0) / 2.0))
             }
 
             /// Returns `max` if `self` is greater than `max`, and `min` if
             /// `self` is less than `min`. Otherwise this returns `self`.
             ///
-            /// Non-normal numbers are flushed to zero.
-            ///
             /// # Panics
             ///
             /// Panics if `min > max`.
-            pub const fn clamp(self, min: Self, max: Self) {
-                // assert!(min <= max, "min > max");
-                
-                if self.0.to_bits() < min.0.to_bits() {
-                    min
-                } else if self.0.to_bits() > max.0.to_bits() {
-                    max
-                } else {
-                    self
-                }
+            pub const fn clamp(self, min: Self, max: Self) -> Self {
+                Self($normalize(self.0.clamp(min.0, max.0)))
             }
         }
 
@@ -128,7 +118,7 @@ macro_rules! ch_float {
 
             #[inline(always)]
             fn add(self, rhs: Self) -> Self {
-                Self(self.0 + rhs.0)
+                Self($normalize(self.0 + rhs.0))
             }
         }
 
@@ -137,7 +127,7 @@ macro_rules! ch_float {
 
             #[inline(always)]
             fn sub(self, rhs: Self) -> Self {
-                Self(self.0 - rhs.0)
+                Self($normalize(self.0 - rhs.0))
             }
         }
     };
