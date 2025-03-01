@@ -10,7 +10,7 @@ macro_rules! reinterpret {
 
             #[inline(always)]
             pub(super) const fn reinterpret_with_offset(self) -> $to {
-                self.reinterpret() ^ (1 << ($from::BITS - 1))
+                self.reinterpret() ^ (1 << (<$from>::BITS - 1))
             }
         }
     };
