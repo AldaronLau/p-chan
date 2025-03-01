@@ -35,7 +35,34 @@ macro_rules! ch_int {
                 Self($normalize(value))
             }
 
+            /// Get the inner primitive channel value.
+            pub const fn into_inner(self) -> $p {
+                self.0
+            }
+
             $midpoint
+
+            /// Returns `max` if `self` is greater than `max`, and `min` if
+            /// `self` is less than `min`. Otherwise this returns `self`.
+            ///
+            /// # Panics
+            ///
+            /// Panics if `min > max`.
+            pub const fn clamp(self, min: Self, max: Self) -> Self {
+                let (mut this, min, max) = (self.0, min.0, max.0);
+
+                assert!(min <= max, "min > max");
+
+                if this < min {
+                    this = min;
+                }
+
+                if this > max {
+                    this = max;
+                }
+
+                Self(this)
+            }
         }
 
         impl core::ops::Add for $ty {
@@ -93,6 +120,11 @@ macro_rules! ch_float {
                 Self($normalize(value))
             }
 
+            /// Get the inner primitive channel value.
+            pub const fn into_inner(self) -> $p {
+                self.0
+            }
+
             /// Calculates the middle point of `self` and `rhs` (clamped).
             ///
             /// `midpoint(a, b)` is `(a + b) / 2`.
@@ -109,7 +141,7 @@ macro_rules! ch_float {
             ///
             /// Panics if `min > max`.
             pub const fn clamp(self, min: Self, max: Self) -> Self {
-                Self($normalize(self.0.clamp(min.0, max.0)))
+                Self(self.0.clamp(min.0, max.0))
             }
         }
 
