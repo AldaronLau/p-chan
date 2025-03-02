@@ -6,7 +6,7 @@
 [![Crates.io](https://img.shields.io/crates/v/p-chan)](https://crates.io/crates/p-chan)
 [![Crates.io](https://img.shields.io/crates/d/p-chan)](https://crates.io/crates/p-chan)
 [![Crates.io (recent)](https://img.shields.io/crates/dr/p-chan)](https://crates.io/crates/p-chan)  
-[![Crates.io](https://img.shields.io/crates/l/p-chan)](https://github.com/AldaronLau/p-chan/search?l=Text&q=license)
+[![Crates.io](https://img.shields.io/crates/l/p-chan)](https://github.com/search?q=repo%3AAldaronLau%2Fp-chan+path%3A**%2FLICENSE*&type=code)
 [![Docs.rs](https://docs.rs/p-chan/badge.svg)](https://docs.rs/p-chan/)
 
 Multimedia (Audio, Raster) Channel Newtypes and Conversions
