@@ -1,5 +1,7 @@
 #[test]
 fn ranges() {
+    #![expect(dead_code)]
+
     #[derive(Debug)]
     struct MinMidMax<T> {
         min: T,

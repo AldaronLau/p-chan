@@ -4,11 +4,23 @@ macro_rules! ch_int {
         $docs: meta $(,)?
     ) => {
         #[$docs]
-        #[derive(
-            Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Default,
-        )]
+        #[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Default)]
         #[repr(transparent)]
         pub struct $ty($p);
+
+        impl core::fmt::Debug for $ty {
+            fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+            {
+                core::fmt::Debug::fmt(&self.0, f)
+            }
+        }
+
+        impl core::fmt::Display for $ty {
+            fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+            {
+                core::fmt::Display::fmt(&self.0, f)
+            }
+        }
 
         impl From<$p> for $ty {
             fn from(value: $p) -> Self {
@@ -91,9 +103,27 @@ macro_rules! ch_float {
         $docs: meta $(,)?
     ) => {
         #[$docs]
-        #[derive(Copy, Clone, PartialEq, PartialOrd, Debug, Default)]
+        #[derive(Copy, Clone, PartialEq, PartialOrd, Default)]
         #[repr(transparent)]
         pub struct $ty($p);
+
+        impl core::fmt::Debug for $ty {
+            fn fmt(
+                &self,
+                f: &mut core::fmt::Formatter<'_>,
+            ) -> core::fmt::Result {
+                self.0.fmt(f)
+            }
+        }
+
+        impl core::fmt::Display for $ty {
+            fn fmt(
+                &self,
+                f: &mut core::fmt::Formatter<'_>,
+            ) -> core::fmt::Result {
+                self.0.fmt(f)
+            }
+        }
 
         impl From<$p> for $ty {
             fn from(value: $p) -> Self {

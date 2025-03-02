@@ -1,5 +1,5 @@
 use std::{
-    fmt::Debug,
+    fmt::{Display, Debug},
     ops::{Add, Sub},
 };
 
@@ -8,12 +8,28 @@ fn impls_traits() {
     // FIXME: Add `Hash`, `Ord`, `Eq`
 
     trait AllTraits:
-        Add + Sub + Clone + Copy + Debug + Default + PartialEq + PartialOrd
+        Add
+        + Sub
+        + Clone
+        + Copy
+        + Debug
+        + Display
+        + Default
+        + PartialEq
+        + PartialOrd
     {
     }
 
     impl<T> AllTraits for T where
-        T: Add + Sub + Clone + Copy + Debug + Default + PartialEq + PartialOrd
+        T: Add
+            + Sub
+            + Clone
+            + Copy
+            + Debug
+            + Display
+            + Default
+            + PartialEq
+            + PartialOrd
     {
     }
 
