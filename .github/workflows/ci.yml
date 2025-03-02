@@ -19,6 +19,9 @@ jobs:
         override: true
     - run: cargo fmt --check
     - run: cargo clippy -- -D warnings
+    - run: cargo clippy --features=signed -- -D warnings
+    - run: cargo clippy --features=unsigned -- -D warnings
+    - run: cargo clippy --all-features -- -D warnings
     - run: cargo doc
     - run: cargo test --all --all-features
   checks-cross-compile:
@@ -46,6 +49,9 @@ jobs:
         target: ${{ matrix.cc }}
         components: clippy
         override: true
+    - run: cargo clippy --target=${{ matrix.cc }} -- -D warnings
+    - run: cargo clippy --features=signed --target=${{ matrix.cc }} -- -D warnings
+    - run: cargo clippy --features=unsigned --target=${{ matrix.cc }} -- -D warnings
     - run: cargo clippy --all-features --target=${{ matrix.cc }} -- -D warnings
     - run: cargo build --all-features --target=${{ matrix.cc }}
   checks-cross-compile-ios:
@@ -64,5 +70,8 @@ jobs:
         target: ${{ matrix.cc }}
         components: clippy
         override: true
+    - run: cargo clippy --target=${{ matrix.cc }} -- -D warnings
+    - run: cargo clippy --features=signed --target=${{ matrix.cc }} -- -D warnings
+    - run: cargo clippy --features=unsigned --target=${{ matrix.cc }} -- -D warnings
     - run: cargo clippy --all-features --target=${{ matrix.cc }} -- -D warnings
     - run: cargo build --all-features --target=${{ matrix.cc }}
