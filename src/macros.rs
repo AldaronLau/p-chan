@@ -173,6 +173,10 @@ macro_rules! ch_float {
             pub const fn clamp(self, min: Self, max: Self) -> Self {
                 Self(self.0.clamp(min.0, max.0))
             }
+
+            pub(crate) const fn normalize(self) -> Self {
+                Self($normalize(self.0))
+            }
         }
 
         impl core::ops::Add for $ty {
@@ -180,7 +184,7 @@ macro_rules! ch_float {
 
             #[inline(always)]
             fn add(self, rhs: Self) -> Self {
-                Self($normalize(self.0 + rhs.0))
+                crate::ops::Sum([self, rhs]).add()
             }
         }
 
@@ -189,7 +193,7 @@ macro_rules! ch_float {
 
             #[inline(always)]
             fn sub(self, rhs: Self) -> Self {
-                Self($normalize(self.0 - rhs.0))
+                crate::ops::Difference(self, [rhs]).sub()
             }
         }
     };
