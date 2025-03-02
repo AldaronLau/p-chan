@@ -24,11 +24,11 @@ macro_rules! ch_int {
 
         impl $ty {
             /// Maximum value
-            pub const MAX: Self = Self::new(<$p>::MAX);
+            pub const MAX: Self = Self::new($normalize(<$p>::MAX));
             /// Middle value
             pub const MID: Self = Self::MAX.midpoint(Self::MIN);
             /// Minimum value
-            pub const MIN: Self = Self::new(<$p>::MIN);
+            pub const MIN: Self = Self::new($normalize(<$p>::MIN));
 
             /// Create a new channel value.
             pub const fn new(value: $p) -> Self {

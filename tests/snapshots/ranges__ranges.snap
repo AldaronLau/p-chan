@@ -1,0 +1,94 @@
+---
+source: tests/ranges.rs
+expression: RANGES
+---
+Ranges {
+    ch8_unsigned: MinMidMax {
+        min: Ch8(
+            0,
+        ),
+        mid: Ch8(
+            127,
+        ),
+        max: Ch8(
+            255,
+        ),
+    },
+    ch12_unsigned: MinMidMax {
+        min: Ch12(
+            0,
+        ),
+        mid: Ch12(
+            2047,
+        ),
+        max: Ch12(
+            4095,
+        ),
+    },
+    ch16_unsigned: MinMidMax {
+        min: Ch16(
+            0,
+        ),
+        mid: Ch16(
+            32767,
+        ),
+        max: Ch16(
+            65535,
+        ),
+    },
+    ch24_unsigned: MinMidMax {
+        min: Ch24(
+            0,
+        ),
+        mid: Ch24(
+            8388607,
+        ),
+        max: Ch24(
+            16777215,
+        ),
+    },
+    ch8_signed: MinMidMax {
+        min: Ch8(
+            -128,
+        ),
+        mid: Ch8(
+            -1,
+        ),
+        max: Ch8(
+            127,
+        ),
+    },
+    ch12_signed: MinMidMax {
+        min: Ch12(
+            -2048,
+        ),
+        mid: Ch12(
+            -1,
+        ),
+        max: Ch12(
+            2047,
+        ),
+    },
+    ch16_signed: MinMidMax {
+        min: Ch16(
+            -32768,
+        ),
+        mid: Ch16(
+            -1,
+        ),
+        max: Ch16(
+            32767,
+        ),
+    },
+    ch24_signed: MinMidMax {
+        min: Ch24(
+            -8388608,
+        ),
+        mid: Ch24(
+            -1,
+        ),
+        max: Ch24(
+            8388607,
+        ),
+    },
+}

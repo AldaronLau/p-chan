@@ -65,7 +65,7 @@ pub mod signed {
     );
 
     ch_int!(
-        (Ch12, i16, i32, core::convert::identity, midpoint! {}),
+        (Ch12, i16, i32, normalize_ch12, midpoint! {}),
         doc = "12-bit signed integer (-2\\_048 to 2\\_047) channel value",
     );
 
@@ -75,7 +75,7 @@ pub mod signed {
     );
 
     ch_int!(
-        (Ch24, i32, i64, core::convert::identity, midpoint! {}),
+        (Ch24, i32, i64, normalize_ch24, midpoint! {}),
         doc = "24-bit signed integer (-8\\_388\\_608 to 8\\_388\\_607) channel value",
     );
 
@@ -88,6 +88,30 @@ pub mod signed {
         (Ch64, f64, core::convert::identity, -1.0, 0.0),
         doc = "64-bit float (-1 to 1) channel value",
     );
+
+    const fn normalize_ch12(mut chan: i16) -> i16 {
+        if chan > 2_i16.pow(11) - 1 {
+            chan = 2_i16.pow(11) - 1;
+        }
+
+        if chan < -2_i16.pow(11) {
+            chan = -2_i16.pow(11);
+        }
+
+        chan
+    }
+
+    const fn normalize_ch24(mut chan: i32) -> i32 {
+        if chan > 2_i32.pow(23) - 1 {
+            chan = 2_i32.pow(23) - 1;
+        }
+
+        if chan < -2_i32.pow(23) {
+            chan = -2_i32.pow(23);
+        }
+
+        chan
+    }
 }
 
 #[cfg(feature = "unsigned")]
@@ -112,7 +136,7 @@ pub mod unsigned {
     );
 
     ch_int!(
-        (Ch12, u16, u32, core::convert::identity, midpoint! {}),
+        (Ch12, u16, u32, normalize_ch12, midpoint! {}),
         doc = "12-bit unsigned integer (0 to 4\\_095) channel value",
     );
 
@@ -122,7 +146,7 @@ pub mod unsigned {
     );
 
     ch_int!(
-        (Ch24, u32, u64, core::convert::identity, midpoint! {}),
+        (Ch24, u32, u64, normalize_ch24, midpoint! {}),
         doc = "24-bit unsigned integer (0 to 16\\_777\\_215) channel value",
     );
 
@@ -135,4 +159,12 @@ pub mod unsigned {
         (Ch64, f64, core::convert::identity, 0.0, 0.5),
         doc = "64-bit float (0 to 1) channel value",
     );
+
+    const fn normalize_ch12(chan: u16) -> u16 {
+        (chan << 4) >> 4
+    }
+
+    const fn normalize_ch24(chan: u32) -> u32 {
+        (chan << 8) >> 8
+    }
 }
