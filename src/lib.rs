@@ -47,7 +47,7 @@ pub mod signed {
             /// Calculates the middle point of `self` and `rhs`.
             ///
             /// `midpoint(a, b)` is `(a + b) / 2` calculated without overflow,
-            /// rounded to zero.
+            /// rounded down.
             pub const fn midpoint(self, rhs: Self) -> Self {
                 use crate::conversions::{Signed, Unsigned};
 
