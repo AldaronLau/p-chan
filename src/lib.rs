@@ -28,8 +28,8 @@
     variant_size_differences
 )]
 #![doc(
-    html_logo_url = "https://raw.githubusercontent.com/AldaronLau/p-chan/v1/res/icon.png",
-    html_favicon_url = "https://raw.githubusercontent.com/AldaronLau/p-chan/v1/res/icon.png"
+    html_logo_url = "https://raw.githubusercontent.com/AldaronLau/p-chan/v0/res/icon.png",
+    html_favicon_url = "https://raw.githubusercontent.com/AldaronLau/p-chan/v0/res/icon.png"
 )]
 
 mod conversions;

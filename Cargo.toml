@@ -1,8 +1,29 @@
 [package]
 name = "p-chan"
-version = "1.0.0"
+version = "0.1.0"
 edition = "2024"
 rust-version = "1.85.0"
+license = "Apache-2.0 OR BSL-1.0 OR MIT"
+documentation = "https://docs.rs/p-chan"
+homepage = "https://github.com/AldaronLau/p-chan/releases"
+repository = "https://github.com/AldaronLau/p-chan"
+readme = "README.md"
+description = "Multimedia (Audio, Raster) Channel Newtypes and Conversions"
+keywords = ["channel", "pcm", "conversion", "audio", "video"]
+categories = [
+    "data-structures",
+    "encoding",
+    "mathematics",
+    "multimedia",
+    "no-std",
+]
+include = [
+    "/LICENSE_APACHE",
+    "/LICENSE_BOOST",
+    "/LICENSE_MIT",
+    "/README.md",
+    "/src/*",
+]
 
 [dev-dependencies]
 insta = "1.42.2"
