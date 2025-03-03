@@ -33,11 +33,11 @@ Any future MSRV updates will follow the [Ardaku MSRV guidelines].
 Copyright © 2025 The P-Chan Contributors.
 
 Licensed under any of
- - Apache License, Version 2.0, ([LICENSE_APACHE] or
+ - Apache License, Version 2.0, ([LICENSE\_APACHE] or
    <https://www.apache.org/licenses/LICENSE-2.0>)
- - Boost Software License, Version 1.0, ([LICENSE_BOOST] or
+ - Boost Software License, Version 1.0, ([LICENSE\_BOOST] or
    <https://www.boost.org/LICENSE_1_0.txt>)
- - MIT License, ([LICENSE_MIT] or <https://mit-license.org/>)
+ - MIT License, ([LICENSE\_MIT] or <https://mit-license.org/>)
 
 at your option.
 

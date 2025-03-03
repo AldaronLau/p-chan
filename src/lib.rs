@@ -37,6 +37,7 @@ mod conversions;
 #[macro_use]
 mod macros;
 pub mod ops;
+pub mod chan;
 
 #[cfg(feature = "signed")]
 pub mod signed {
