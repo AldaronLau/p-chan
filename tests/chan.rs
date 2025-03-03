@@ -82,6 +82,8 @@ fn float_to_unsigned() {
     assert_eq!(f32_to_u32(1.6298147e-9), 7);
     assert_eq!(f32_to_u32(1.8626454e-9), 8);
     assert_eq!(f32_to_u32(2.095476e-9), 9);
+    assert_eq!(f32_to_u32(f32::INFINITY), u32::MAX);
+    assert_eq!(f32_to_u32(f32::NEG_INFINITY), u32::MIN);
 }
 
 #[test]
@@ -123,4 +125,6 @@ fn float_to_signed() {
     assert_eq!(f32_to_i32(-0.25), i32::MIN / 4);
     assert_eq!(f32_to_i32(-0.5), i32::MIN / 2);
     assert_eq!(f32_to_i32(-1.0), i32::MIN);
+    assert_eq!(f32_to_i32(f32::INFINITY), i32::MAX);
+    assert_eq!(f32_to_i32(f32::NEG_INFINITY), i32::MIN);
 }

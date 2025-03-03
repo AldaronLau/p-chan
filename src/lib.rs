@@ -6,7 +6,7 @@
 //! integers, and `Ch32` and `Ch64` for floating-point.  Integer channels can
 //! not exceed the range of their minimum and maximum values, while
 //! floating-point channels can.  Floating-point channels can only ever be
-//! normal numbers.
+//! normal numbers or infinity.
 
 #![no_std]
 #![deny(
@@ -81,12 +81,12 @@ pub mod signed {
     );
 
     ch_float!(
-        (Ch32, f32, core::convert::identity, -1.0, 0.0),
+        (Ch32, f32, crate::conversions::normalize_f32, -1.0, 0.0),
         doc = "32-bit float (-1 to 1) channel value",
     );
 
     ch_float!(
-        (Ch64, f64, core::convert::identity, -1.0, 0.0),
+        (Ch64, f64, crate::conversions::normalize_f64, -1.0, 0.0),
         doc = "64-bit float (-1 to 1) channel value",
     );
 
@@ -152,12 +152,12 @@ pub mod unsigned {
     );
 
     ch_float!(
-        (Ch32, f32, core::convert::identity, 0.0, 0.5),
+        (Ch32, f32, crate::conversions::normalize_f32, 0.0, 0.5),
         doc = "32-bit float (0 to 1) channel value",
     );
 
     ch_float!(
-        (Ch64, f64, core::convert::identity, 0.0, 0.5),
+        (Ch64, f64, crate::conversions::normalize_f64, 0.0, 0.5),
         doc = "64-bit float (0 to 1) channel value",
     );
 
