@@ -1,4 +1,4 @@
-use p_chan::chan::{u32_to_f32, f32_to_u32, f32_to_i32, i32_to_f32};
+use p_chan::chan::{f32_to_i32, f32_to_u32, i32_to_f32, u32_to_f32};
 
 #[test]
 fn unsigned_to_float() {

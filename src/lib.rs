@@ -36,8 +36,8 @@ mod conversions;
 #[cfg(any(feature = "unsigned", feature = "signed"))]
 #[macro_use]
 mod macros;
-pub mod ops;
 pub mod chan;
+pub mod ops;
 
 #[cfg(feature = "signed")]
 pub mod signed {
