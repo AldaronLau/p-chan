@@ -1,23 +1,15 @@
 //! Low-level float / integer channel conversions
 
+use crate::conversions::{Signed, Unsigned};
+
 #[inline(always)]
 const fn add_sign(float: f32, sign: i32) -> f32 {
-    f32::from_bits(float.to_bits() | (reinterpret_unsigned(sign) << 31))
+    f32::from_bits(float.to_bits() | (Unsigned(sign).reinterpret() << 31))
 }
 
 #[inline(always)]
 const fn bool_to_word(b: bool) -> i32 {
     b as i32
-}
-
-#[inline(always)]
-const fn reinterpret_signed(int: u32) -> i32 {
-    i32::from_ne_bytes(int.to_ne_bytes())
-}
-
-#[inline(always)]
-const fn reinterpret_unsigned(int: i32) -> u32 {
-    u32::from_ne_bytes(int.to_ne_bytes())
 }
 
 /// Convert non-zero [`u32`] fraction to [`f32`] (ranged 0 to 1).
@@ -48,11 +40,12 @@ const fn normal_f32_to_u32(float: f32) -> u32 {
     // Artificially extend fraction precision, and add inferred 1
     let fraction = (1 << 31) | fraction | (fraction >> 23);
     // Extract -127 bias 8-bit negative exponent
-    let exponent = reinterpret_unsigned(127 - reinterpret_signed(float >> 23));
+    let exponent =
+        Unsigned(127 - Signed(float >> 23).reinterpret()).reinterpret();
     // Scale by exponent
     let (fraction, overflow) = fraction.overflowing_shr(exponent - 1);
     // Check if fraction should be 0 or not
-    let nonzero = reinterpret_unsigned(-bool_to_word(!overflow));
+    let nonzero = Unsigned(-bool_to_word(!overflow)).reinterpret();
 
     // Make zero if zero, otherwise no-op
     fraction & nonzero
@@ -61,7 +54,7 @@ const fn normal_f32_to_u32(float: f32) -> u32 {
 /// Convert [`u32`] fraction to [`f32`] (ranged 0 to 1).
 pub const fn u32_to_f32(fraction: u32) -> f32 {
     // Check if fraction is 0 or not
-    let nonzero = reinterpret_unsigned(-bool_to_word(fraction != 0));
+    let nonzero = Unsigned(-bool_to_word(fraction != 0)).reinterpret();
 
     // Make zero if zero, otherwise no-op
     f32::from_bits(nonzero_u32_to_f32(fraction).to_bits() & nonzero)
@@ -83,7 +76,7 @@ pub const fn i32_to_f32(int: i32) -> f32 {
 #[inline(always)]
 pub const fn f32_to_u32(float: f32) -> u32 {
     // Check if fraction is normal or not
-    let normal = reinterpret_unsigned(-bool_to_word(float.is_normal()));
+    let normal = Unsigned(-bool_to_word(float.is_normal())).reinterpret();
     // Flush subnormals, infinity and NaN to zero, and clamp from 0 to 1
     let float = f32::from_bits(float.to_bits() & normal).clamp(0.0, 1.0);
 
@@ -95,11 +88,11 @@ pub const fn f32_to_u32(float: f32) -> u32 {
 #[inline(always)]
 pub const fn f32_to_i32(float: f32) -> i32 {
     // Check if fraction is normal or not
-    let normal = reinterpret_unsigned(-bool_to_word(float.is_normal()));
+    let normal = Unsigned(-bool_to_word(float.is_normal())).reinterpret();
     // Flush subnormals, infinity and NaN to zero, and clamp from -1 to 1
     let float = f32::from_bits(float.to_bits() & normal).clamp(-1.0, 1.0);
     // Convert to unsigned integer and reduce precision
-    let magnitude = reinterpret_signed(normal_f32_to_u32(float.abs()) >> 1);
+    let magnitude = Signed(normal_f32_to_u32(float.abs()) >> 1).reinterpret();
     // Get offset
     let offset = -bool_to_word(float.is_sign_negative());
     // Get sign
