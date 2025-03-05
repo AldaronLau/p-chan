@@ -52,7 +52,7 @@ licensed as described above, without any additional terms or conditions.
 If you want help using or contributing to this library, feel free to send me an
 email at <aldaronlau@gmail.com>.
 
-[LICENSE_APACHE]: https://github.com/AldaronLau/p-chan/blob/v0/LICENSE_APACHE
-[LICENSE_MIT]: https://github.com/AldaronLau/p-chan/blob/v0/LICENSE_MIT
-[LICENSE_BOOST]: https://github.com/AldaronLau/p-chan/blob/v0/LICENSE_BOOST
+[LICENSE\_APACHE]: https://github.com/AldaronLau/p-chan/blob/v0/LICENSE_APACHE
+[LICENSE\_MIT]: https://github.com/AldaronLau/p-chan/blob/v0/LICENSE_MIT
+[LICENSE\_BOOST]: https://github.com/AldaronLau/p-chan/blob/v0/LICENSE_BOOST
 [Ardaku MSRV guidelines]: https://github.com/ardaku/.github/blob/v1/profile/MSRV.md
