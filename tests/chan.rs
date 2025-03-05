@@ -1,4 +1,6 @@
-use p_chan::chan::{f32_to_i32, f32_to_u32, i32_to_f32, u32_to_f32};
+use p_chan::chan::{
+    f32_to_i32, f32_to_u32, i32_to_f32, i32_to_u32, u32_to_f32, u32_to_i32,
+};
 
 #[test]
 fn unsigned_to_float() {
@@ -127,4 +129,20 @@ fn float_to_signed() {
     assert_eq!(f32_to_i32(-1.0), i32::MIN);
     assert_eq!(f32_to_i32(f32::INFINITY), i32::MAX);
     assert_eq!(f32_to_i32(f32::NEG_INFINITY), i32::MIN);
+}
+
+#[test]
+fn unsigned_to_signed() {
+    assert_eq!(u32_to_i32(u32::MIN), i32::MIN);
+    assert_eq!(u32_to_i32(u32::MAX / 2), -1);
+    assert_eq!(u32_to_i32(u32::MAX / 2 + 1), 0);
+    assert_eq!(u32_to_i32(u32::MAX), i32::MAX);
+}
+
+#[test]
+fn signed_to_unsigned() {
+    assert_eq!(i32_to_u32(i32::MIN), u32::MIN);
+    assert_eq!(i32_to_u32(-1), u32::MAX / 2);
+    assert_eq!(i32_to_u32(0), u32::MAX / 2 + 1);
+    assert_eq!(i32_to_u32(i32::MAX), u32::MAX);
 }

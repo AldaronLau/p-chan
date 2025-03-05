@@ -100,3 +100,15 @@ pub const fn f32_to_i32(float: f32) -> i32 {
     // Convert to signed integer
     normal_f32_to_i32(float)
 }
+
+/// Convert [`u32`] fraction to [`i32`] fraction.
+#[inline(always)]
+pub const fn u32_to_i32(fraction: u32) -> i32 {
+    Signed(fraction).reinterpret_with_offset()
+}
+
+/// Convert [`i32`] fraction to [`u32`] fraction.
+#[inline(always)]
+pub const fn i32_to_u32(fraction: i32) -> u32 {
+    Unsigned(fraction).reinterpret_with_offset()
+}
