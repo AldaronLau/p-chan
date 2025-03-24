@@ -161,11 +161,19 @@ pub mod unsigned {
         doc = "64-bit float (0 to 1) channel value",
     );
 
-    const fn normalize_ch12(chan: u16) -> u16 {
-        (chan << 4) >> 4
+    const fn normalize_ch12(mut chan: u16) -> u16 {
+        if chan > 2_u16.pow(12) - 1 {
+            chan = 2_u16.pow(12) - 1;
+        }
+
+        chan
     }
 
-    const fn normalize_ch24(chan: u32) -> u32 {
-        (chan << 8) >> 8
+    const fn normalize_ch24(mut chan: u32) -> u32 {
+        if chan > 2_u32.pow(24) - 1 {
+            chan = 2_u32.pow(24) - 1;
+        }
+
+        chan
     }
 }

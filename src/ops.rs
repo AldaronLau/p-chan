@@ -66,6 +66,49 @@ pub struct Negation<T>(pub T);
 pub struct Difference<T, const N: usize>(pub T, pub [T; N]);
 
 #[cfg(any(feature = "signed", feature = "unsigned"))]
+macro_rules! int_channel {
+    ($type:ty) => {
+        impl<const N: usize> Sum<$type, N> {
+            /// Add up the sum.
+            pub const fn add(self) -> $type {
+                let mut ret = 0;
+                let mut i = 0;
+
+                loop {
+                    if i >= N {
+                        break <$type>::new(ret);
+                    }
+
+                    let value = self.0[i];
+
+                    ret = ret.saturating_add(value.into_inner());
+                    i += 1;
+                }
+            }
+        }
+
+        impl<const N: usize> Difference<$type, N> {
+            /// Subtract to get the difference.
+            pub const fn sub(self) -> $type {
+                let mut ret = self.0.into_inner();
+                let mut i = 0;
+
+                loop {
+                    if i >= N {
+                        break <$type>::new(ret);
+                    }
+
+                    let value = self.1[i];
+
+                    ret = ret.saturating_sub(value.into_inner());
+                    i += 1;
+                }
+            }
+        }
+    };
+}
+
+#[cfg(any(feature = "signed", feature = "unsigned"))]
 macro_rules! float_channel {
     ($type:ty) => {
         impl<const N: usize> Sum<$type, N> {
@@ -76,7 +119,7 @@ macro_rules! float_channel {
 
                 loop {
                     if i >= N {
-                        break <$type>::new(ret).normalize();
+                        break <$type>::new(ret);
                     }
 
                     let value = self.0[i];
@@ -95,7 +138,7 @@ macro_rules! float_channel {
 
                 loop {
                     if i >= N {
-                        break <$type>::new(ret).normalize();
+                        break <$type>::new(ret);
                     }
 
                     let value = self.1[i];
@@ -114,7 +157,7 @@ macro_rules! float_channel {
 
                 loop {
                     if i >= N {
-                        break <$type>::new(ret).normalize();
+                        break <$type>::new(ret);
                     }
 
                     let value = self.0[i];
@@ -130,8 +173,12 @@ macro_rules! float_channel {
 #[cfg(feature = "unsigned")]
 mod unsigned {
     use super::*;
-    use crate::unsigned::{Ch32, Ch64};
+    use crate::unsigned::{Ch8, Ch12, Ch16, Ch24, Ch32, Ch64};
 
+    int_channel!(Ch8);
+    int_channel!(Ch12);
+    int_channel!(Ch16);
+    int_channel!(Ch24);
     float_channel!(Ch32);
     float_channel!(Ch64);
 
@@ -167,7 +214,9 @@ mod unsigned {
 #[cfg(feature = "signed")]
 mod signed {
     use super::*;
-    use crate::signed::{Ch8, Ch16, Ch32, Ch64};
+    use crate::signed::{Ch8, Ch12, Ch16, Ch24, Ch32, Ch64};
+
+    // FIXME: conversion
 
     impl Conversion<Ch8, Ch16> {
         /// Convert between types.
@@ -179,6 +228,10 @@ mod signed {
         }
     }
 
+    int_channel!(Ch8);
+    int_channel!(Ch12);
+    int_channel!(Ch16);
+    int_channel!(Ch24);
     float_channel!(Ch32);
     float_channel!(Ch64);
 
