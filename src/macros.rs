@@ -82,7 +82,7 @@ macro_rules! ch_int {
 
             #[inline(always)]
             fn add(self, rhs: Self) -> Self {
-                Self($normalize(self.0.saturating_add(rhs.0)))
+                crate::ops::Sum([self, rhs]).add()
             }
         }
 
@@ -91,7 +91,7 @@ macro_rules! ch_int {
 
             #[inline(always)]
             fn sub(self, rhs: Self) -> Self {
-                Self($normalize(self.0.saturating_sub(rhs.0)))
+                crate::ops::Difference(self, [rhs]).sub()
             }
         }
     };
@@ -172,10 +172,6 @@ macro_rules! ch_float {
             /// Panics if `min > max`.
             pub const fn clamp(self, min: Self, max: Self) -> Self {
                 Self(self.0.clamp(min.0, max.0))
-            }
-
-            pub(crate) const fn normalize(self) -> Self {
-                Self($normalize(self.0))
             }
         }
 
