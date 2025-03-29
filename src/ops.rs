@@ -17,7 +17,7 @@
 //!
 //! ## Negation
 //!
-//! This is the same as inversion for signed floating-point channels.
+//! This is the same as inversion except for unsigned floating-point channels.
 //!
 //! ## Product
 //!
@@ -41,15 +41,15 @@ pub struct Sum<T, const N: usize>(pub [T; N]);
 #[derive(Debug)]
 pub struct Product<T, const N: usize>(pub [T; N]);
 
-/// Constant conversion operation (`convert`)
+/// Constant conversion operation (`conv`)
 ///
-///  - `Conversion::<_, U>::convert(_)`
+///  - `Conversion::<_, U>::conv(_)`
 #[derive(Debug)]
 pub struct Conversion<T, U>(T, PhantomData<fn() -> U>);
 
-/// Constant inversion operation (`invert`)
+/// Constant inversion operation (`inv`)
 ///
-///  - `Inversion(_)::invert()`
+///  - `Inversion(_)::inv()`
 #[derive(Debug)]
 pub struct Inversion<T>(pub T);
 
@@ -167,6 +167,13 @@ macro_rules! float_channel {
                 }
             }
         }
+
+        impl Negation<$type> {
+            /// Negate the value.
+            pub const fn neg(self) -> $type {
+                <$type>::new(-self.0.into_inner())
+            }
+        }
     };
 }
 
@@ -184,29 +191,71 @@ mod unsigned {
 
     impl Inversion<Ch32> {
         /// Invert the value.
-        pub const fn invert(self) -> Ch32 {
+        pub const fn inv(self) -> Ch32 {
             Ch32::new(1.0 - self.0.into_inner())
         }
     }
 
     impl Inversion<Ch64> {
         /// Invert the value.
-        pub const fn invert(self) -> Ch64 {
+        pub const fn inv(self) -> Ch64 {
             Ch64::new(1.0 - self.0.into_inner())
         }
     }
 
-    impl Negation<Ch32> {
-        /// Negate the value.
-        pub const fn neg(self) -> Ch32 {
-            Ch32::new(-self.0.into_inner())
+    impl Inversion<Ch8> {
+        /// Invert the value.
+        pub const fn inv(self) -> Ch8 {
+            Ch8::new(Ch8::MAX.into_inner() - self.0.into_inner())
         }
     }
 
-    impl Negation<Ch64> {
+    impl Inversion<Ch12> {
+        /// Invert the value.
+        pub const fn inv(self) -> Ch12 {
+            Ch12::new(Ch12::MAX.into_inner() - self.0.into_inner())
+        }
+    }
+
+    impl Inversion<Ch16> {
+        /// Invert the value.
+        pub const fn inv(self) -> Ch16 {
+            Ch16::new(Ch16::MAX.into_inner() - self.0.into_inner())
+        }
+    }
+
+    impl Inversion<Ch24> {
+        /// Invert the value.
+        pub const fn inv(self) -> Ch24 {
+            Ch24::new(Ch24::MAX.into_inner() - self.0.into_inner())
+        }
+    }
+
+    impl Negation<Ch8> {
         /// Negate the value.
-        pub const fn neg(self) -> Ch64 {
-            Ch64::new(-self.0.into_inner())
+        pub const fn neg(self) -> Ch8 {
+            Ch8::new(Ch8::MAX.into_inner() - self.0.into_inner())
+        }
+    }
+
+    impl Negation<Ch12> {
+        /// Negate the value.
+        pub const fn neg(self) -> Ch12 {
+            Ch12::new(Ch12::MAX.into_inner() - self.0.into_inner())
+        }
+    }
+
+    impl Negation<Ch16> {
+        /// Negate the value.
+        pub const fn neg(self) -> Ch16 {
+            Ch16::new(Ch16::MAX.into_inner() - self.0.into_inner())
+        }
+    }
+
+    impl Negation<Ch24> {
+        /// Negate the value.
+        pub const fn neg(self) -> Ch24 {
+            Ch24::new(Ch24::MAX.into_inner() - self.0.into_inner())
         }
     }
 }
@@ -220,7 +269,7 @@ mod signed {
 
     impl Conversion<Ch8, Ch16> {
         /// Convert between types.
-        pub const fn convert(from: Ch8) -> Ch16 {
+        pub const fn conv(from: Ch8) -> Ch16 {
             let little = from.into_inner() as i16;
             let big = little * 256;
 
@@ -237,29 +286,71 @@ mod signed {
 
     impl Inversion<Ch32> {
         /// Invert the value.
-        pub const fn invert(self) -> Ch32 {
+        pub const fn inv(self) -> Ch32 {
             Ch32::new(-self.0.into_inner())
         }
     }
 
     impl Inversion<Ch64> {
         /// Invert the value.
-        pub const fn invert(self) -> Ch64 {
+        pub const fn inv(self) -> Ch64 {
             Ch64::new(-self.0.into_inner())
         }
     }
 
-    impl Negation<Ch32> {
-        /// Negate the value.
-        pub const fn neg(self) -> Ch32 {
-            Ch32::new(-self.0.into_inner())
+    impl Inversion<Ch8> {
+        /// Invert the value.
+        pub const fn inv(self) -> Ch8 {
+            Ch8::new(-1 - self.0.into_inner())
         }
     }
 
-    impl Negation<Ch64> {
+    impl Inversion<Ch12> {
+        /// Invert the value.
+        pub const fn inv(self) -> Ch12 {
+            Ch12::new(-1 - self.0.into_inner())
+        }
+    }
+
+    impl Inversion<Ch16> {
+        /// Invert the value.
+        pub const fn inv(self) -> Ch16 {
+            Ch16::new(-1 - self.0.into_inner())
+        }
+    }
+
+    impl Inversion<Ch24> {
+        /// Invert the value.
+        pub const fn inv(self) -> Ch24 {
+            Ch24::new(-1 - self.0.into_inner())
+        }
+    }
+
+    impl Negation<Ch8> {
         /// Negate the value.
-        pub const fn neg(self) -> Ch64 {
-            Ch64::new(-self.0.into_inner())
+        pub const fn neg(self) -> Ch8 {
+            Ch8::new(-1 - self.0.into_inner())
+        }
+    }
+
+    impl Negation<Ch12> {
+        /// Negate the value.
+        pub const fn neg(self) -> Ch12 {
+            Ch12::new(-1 - self.0.into_inner())
+        }
+    }
+
+    impl Negation<Ch16> {
+        /// Negate the value.
+        pub const fn neg(self) -> Ch16 {
+            Ch16::new(-1 - self.0.into_inner())
+        }
+    }
+
+    impl Negation<Ch24> {
+        /// Negate the value.
+        pub const fn neg(self) -> Ch24 {
+            Ch24::new(-1 - self.0.into_inner())
         }
     }
 }

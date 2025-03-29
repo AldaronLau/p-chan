@@ -94,6 +94,24 @@ macro_rules! ch_int {
                 crate::ops::Difference(self, [rhs]).sub()
             }
         }
+
+        impl core::ops::Neg for $ty {
+            type Output = Self;
+
+            #[inline(always)]
+            fn neg(self) -> Self {
+                crate::ops::Negation(self).neg()
+            }
+        }
+
+        impl core::ops::Not for $ty {
+            type Output = Self;
+
+            #[inline(always)]
+            fn not(self) -> Self {
+                crate::ops::Inversion(self).inv()
+            }
+        }
     };
 }
 
@@ -190,6 +208,24 @@ macro_rules! ch_float {
             #[inline(always)]
             fn sub(self, rhs: Self) -> Self {
                 crate::ops::Difference(self, [rhs]).sub()
+            }
+        }
+
+        impl core::ops::Neg for $ty {
+            type Output = Self;
+
+            #[inline(always)]
+            fn neg(self) -> Self {
+                crate::ops::Negation(self).neg()
+            }
+        }
+
+        impl core::ops::Not for $ty {
+            type Output = Self;
+
+            #[inline(always)]
+            fn not(self) -> Self {
+                crate::ops::Inversion(self).inv()
             }
         }
     };

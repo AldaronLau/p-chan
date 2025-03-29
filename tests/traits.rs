@@ -1,6 +1,6 @@
 use std::{
     fmt::{Debug, Display},
-    ops::{Add, Sub},
+    ops::{Add, Neg, Not, Sub},
 };
 
 #[test]
@@ -10,6 +10,8 @@ fn impls_traits() {
     trait AllTraits:
         Add
         + Sub
+        + Not
+        + Neg
         + Clone
         + Copy
         + Debug
@@ -23,6 +25,8 @@ fn impls_traits() {
     impl<T> AllTraits for T where
         T: Add
             + Sub
+            + Not
+            + Neg
             + Clone
             + Copy
             + Debug
@@ -233,4 +237,62 @@ fn int_ops_sub() {
         p_chan::signed::Ch24::new(-6_000_000)
             - p_chan::signed::Ch24::new(6_000_000),
     );
+}
+
+#[test]
+fn ops_neg() {
+    assert_eq!(-p_chan::signed::Ch8::MIN, p_chan::signed::Ch8::MAX);
+    assert_eq!(-p_chan::signed::Ch12::MIN, p_chan::signed::Ch12::MAX);
+    assert_eq!(-p_chan::signed::Ch16::MIN, p_chan::signed::Ch16::MAX);
+    assert_eq!(-p_chan::signed::Ch24::MIN, p_chan::signed::Ch24::MAX);
+    assert_eq!(-p_chan::signed::Ch32::MIN, p_chan::signed::Ch32::MAX);
+    assert_eq!(-p_chan::signed::Ch64::MIN, p_chan::signed::Ch64::MAX);
+    assert_eq!(-p_chan::signed::Ch8::MAX, p_chan::signed::Ch8::MIN);
+    assert_eq!(-p_chan::signed::Ch12::MAX, p_chan::signed::Ch12::MIN);
+    assert_eq!(-p_chan::signed::Ch16::MAX, p_chan::signed::Ch16::MIN);
+    assert_eq!(-p_chan::signed::Ch24::MAX, p_chan::signed::Ch24::MIN);
+    assert_eq!(-p_chan::signed::Ch32::MAX, p_chan::signed::Ch32::MIN);
+    assert_eq!(-p_chan::signed::Ch64::MAX, p_chan::signed::Ch64::MIN);
+
+    assert_eq!(-p_chan::unsigned::Ch8::MIN, p_chan::unsigned::Ch8::MAX);
+    assert_eq!(-p_chan::unsigned::Ch12::MIN, p_chan::unsigned::Ch12::MAX);
+    assert_eq!(-p_chan::unsigned::Ch16::MIN, p_chan::unsigned::Ch16::MAX);
+    assert_eq!(-p_chan::unsigned::Ch24::MIN, p_chan::unsigned::Ch24::MAX);
+    assert_eq!((-p_chan::unsigned::Ch32::MIN).into_inner(), 0.0);
+    assert_eq!((-p_chan::unsigned::Ch64::MIN).into_inner(), 0.0);
+    assert_eq!(-p_chan::unsigned::Ch8::MAX, p_chan::unsigned::Ch8::MIN);
+    assert_eq!(-p_chan::unsigned::Ch12::MAX, p_chan::unsigned::Ch12::MIN);
+    assert_eq!(-p_chan::unsigned::Ch16::MAX, p_chan::unsigned::Ch16::MIN);
+    assert_eq!(-p_chan::unsigned::Ch24::MAX, p_chan::unsigned::Ch24::MIN);
+    assert_eq!((-p_chan::unsigned::Ch32::MAX).into_inner(), -1.0);
+    assert_eq!((-p_chan::unsigned::Ch64::MAX).into_inner(), -1.0);
+}
+
+#[test]
+fn ops_inv() {
+    assert_eq!(!p_chan::signed::Ch8::MIN, p_chan::signed::Ch8::MAX);
+    assert_eq!(!p_chan::signed::Ch12::MIN, p_chan::signed::Ch12::MAX);
+    assert_eq!(!p_chan::signed::Ch16::MIN, p_chan::signed::Ch16::MAX);
+    assert_eq!(!p_chan::signed::Ch24::MIN, p_chan::signed::Ch24::MAX);
+    assert_eq!(!p_chan::signed::Ch32::MIN, p_chan::signed::Ch32::MAX);
+    assert_eq!(!p_chan::signed::Ch64::MIN, p_chan::signed::Ch64::MAX);
+    assert_eq!(!p_chan::signed::Ch8::MAX, p_chan::signed::Ch8::MIN);
+    assert_eq!(!p_chan::signed::Ch12::MAX, p_chan::signed::Ch12::MIN);
+    assert_eq!(!p_chan::signed::Ch16::MAX, p_chan::signed::Ch16::MIN);
+    assert_eq!(!p_chan::signed::Ch24::MAX, p_chan::signed::Ch24::MIN);
+    assert_eq!(!p_chan::signed::Ch32::MAX, p_chan::signed::Ch32::MIN);
+    assert_eq!(!p_chan::signed::Ch64::MAX, p_chan::signed::Ch64::MIN);
+
+    assert_eq!(!p_chan::unsigned::Ch8::MIN, p_chan::unsigned::Ch8::MAX);
+    assert_eq!(!p_chan::unsigned::Ch12::MIN, p_chan::unsigned::Ch12::MAX);
+    assert_eq!(!p_chan::unsigned::Ch16::MIN, p_chan::unsigned::Ch16::MAX);
+    assert_eq!(!p_chan::unsigned::Ch24::MIN, p_chan::unsigned::Ch24::MAX);
+    assert_eq!(!p_chan::unsigned::Ch32::MIN, p_chan::unsigned::Ch32::MAX);
+    assert_eq!(!p_chan::unsigned::Ch64::MIN, p_chan::unsigned::Ch64::MAX);
+    assert_eq!(!p_chan::unsigned::Ch8::MAX, p_chan::unsigned::Ch8::MIN);
+    assert_eq!(!p_chan::unsigned::Ch12::MAX, p_chan::unsigned::Ch12::MIN);
+    assert_eq!(!p_chan::unsigned::Ch16::MAX, p_chan::unsigned::Ch16::MIN);
+    assert_eq!(!p_chan::unsigned::Ch24::MAX, p_chan::unsigned::Ch24::MIN);
+    assert_eq!(!p_chan::unsigned::Ch32::MAX, p_chan::unsigned::Ch32::MIN);
+    assert_eq!(!p_chan::unsigned::Ch64::MAX, p_chan::unsigned::Ch64::MIN);
 }
