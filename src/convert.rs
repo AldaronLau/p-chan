@@ -155,7 +155,7 @@ const fn normal_f64_to_u64(float: f64) -> u64 {
     // Scale down (f64 max fraction is 2⁶⁴, and we want 2⁶⁴ - 1)
     let float = (float
         * f64::from_bits(
-            0b11111111101111111111111111111111111111111111111111111111111110,
+            0b11111111101111111111111111111111111111111111111111111111111111,
         ))
     .to_bits();
     // Convert fraction to 52 bits
