@@ -143,9 +143,9 @@ const fn nonzero_u64_to_f64(fraction: u64) -> f64 {
     let exponent = (1023 - (leading_zeros as u64)) << 52;
 
     // Scale up (u64 max is 2⁶⁴ - 1, and we want 2⁶⁴)
-    f64::from_bits(exponent | fraction) *
-        f64::from_bits(
-           0b11111111110000000000000000000000000000000000000000000000000001
+    f64::from_bits(exponent | fraction)
+        * f64::from_bits(
+            0b11111111110000000000000000000000000000000000000000000000000001,
         )
 }
 
