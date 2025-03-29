@@ -1,6 +1,6 @@
 //! Low-level integer channel upscaling conversions
 
-use crate::math::{Signed, Unsigned};
+use crate::math::{self, Signed, Unsigned};
 
 /// Upscale `u24` fraction to [`u32`] fraction.
 #[inline(always)]
@@ -80,4 +80,10 @@ pub const fn i12_to_i32(mut fraction: i16) -> i32 {
 pub const fn i8_to_i32(fraction: i8) -> i32 {
     Signed(u8_to_u32(Unsigned(fraction).reinterpret_with_offset()))
         .reinterpret_with_offset()
+}
+
+/// Upscale [`f32`] fraction to [`f64`] fraction.
+#[inline(always)]
+pub const fn f32_to_f64(float: f32) -> f64 {
+    math::normalize_f32(float) as f64
 }
