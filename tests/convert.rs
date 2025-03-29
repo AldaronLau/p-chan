@@ -1,4 +1,4 @@
-use p_chan::chan::{
+use p_chan::convert::{
     f32_to_i32, f32_to_u32, i32_to_f32, i32_to_u32, u32_to_f32, u32_to_i32,
 };
 
