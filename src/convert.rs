@@ -113,82 +113,118 @@ pub const fn i32_to_u32(fraction: i32) -> u32 {
     Unsigned(fraction).reinterpret_with_offset()
 }
 
-/// Upscale `u24` fraction to [`u32`] fraction.
+/// Convert [`u64`] fraction to [`i64`] fraction.
 #[inline(always)]
-pub const fn u24_to_u32(fraction: u32) -> u32 {
-    let upper = fraction << 8;
-    let lower = upper >> 24;
-
-    upper | lower
+pub const fn u64_to_i64(fraction: u64) -> i64 {
+    Signed(fraction).reinterpret_with_offset()
 }
 
-/// Upscale [`u16`] fraction to [`u32`] fraction.
+/// Convert [`i64`] fraction to [`u64`] fraction.
 #[inline(always)]
-pub const fn u16_to_u32(fraction: u16) -> u32 {
-    let fraction = fraction as u32;
-
-    fraction | (fraction << 16)
+pub const fn i64_to_u64(fraction: i64) -> u64 {
+    Unsigned(fraction).reinterpret_with_offset()
 }
 
-/// Upscale `u12` fraction to [`u32`] fraction.
 #[inline(always)]
-pub const fn u12_to_u32(fraction: u16) -> u32 {
-    let fraction = fraction as u32;
-    let upper = fraction << 4;
-    let middle = upper >> 12;
-    let lower = upper >> 24;
-
-    upper | middle | lower
+const fn add_sign_long(float: f64, sign: i64) -> f64 {
+    f64::from_bits(float.to_bits() | (Unsigned(sign).reinterpret() << 63))
 }
 
-/// Upscale [`u8`] fraction to [`u32`] fraction.
+/// Convert non-zero [`u64`] fraction to [`f64`] (ranged 0 to 1).
 #[inline(always)]
-pub const fn u8_to_u32(fraction: u8) -> u32 {
-    u32::from_ne_bytes([fraction, fraction, fraction, fraction])
+const fn nonzero_u64_to_f64(fraction: u64) -> f64 {
+    // Calculate leading zeros (with inferred 1)
+    let leading_zeros = fraction.leading_zeros() + 1;
+    // Remove leading zeros and inferred 1 to subtract from exponent
+    let fraction = fraction.wrapping_shl(leading_zeros);
+    // Shift right to truncate to 52-bit fraction
+    let fraction = fraction >> 12;
+    // Calculate -1023 bias exponent
+    let exponent = (1023 - (leading_zeros as u64)) << 52;
+
+    // Scale up (u64 max is 2⁶⁴ - 1, and we want 2⁶⁴)
+    f64::from_bits(exponent | fraction)
+        * f64::from_bits(
+            0b11111111110000000000000000000000000000000000000000000000000001,
+        )
 }
 
-/// Upscale `i24` fraction to [`i32`] fraction.
+/// Convert normal [`f64`] (ranged 0 to 1) to [`u64`] fraction.
 #[inline(always)]
-pub const fn i24_to_i32(mut fraction: i32) -> i32 {
-    if fraction > 2_i32.pow(23) - 1 {
-        fraction = 2_i32.pow(23) - 1;
-    }
+const fn normal_f64_to_u64(float: f64) -> u64 {
+    // Scale down (f64 max fraction is 2⁶⁴, and we want 2⁶⁴ - 1)
+    let float = (float
+        * f64::from_bits(
+            0b11111111101111111111111111111111111111111111111111111111111111,
+        ))
+    .to_bits();
+    // Convert fraction to 52 bits
+    let fraction = (float << 12) >> 1;
+    // Artificially extend fraction precision, and add inferred 1
+    let fraction = (1 << 63) | fraction | (fraction >> 52);
+    // Extract -1023 bias 11-bit negative exponent
+    let exponent = Unsigned(1023 - Signed((float >> 52) as u32).reinterpret())
+        .reinterpret();
+    // Scale by exponent
+    let (fraction, overflow) = fraction.overflowing_shr(exponent - 1);
+    // Check if fraction should be 0 or not
+    let nonzero = Unsigned(-math::long(!overflow)).reinterpret();
 
-    if fraction < -2_i32.pow(23) {
-        fraction = -2_i32.pow(23);
-    }
-
-    let fraction = Unsigned(fraction).reinterpret() ^ (1 << (i32::BITS - 9));
-
-    Signed(u24_to_u32(fraction)).reinterpret_with_offset()
+    // Make zero if zero, otherwise no-op
+    fraction & nonzero
 }
 
-/// Upscale [`i16`] fraction to [`i32`] fraction.
+/// Convert normal [`f64`] (ranged -1 to 1) to [`i64`] fraction.
 #[inline(always)]
-pub const fn i16_to_i32(fraction: i16) -> i32 {
-    Signed(u16_to_u32(Unsigned(fraction).reinterpret_with_offset()))
-        .reinterpret_with_offset()
+const fn normal_f64_to_i64(float: f64) -> i64 {
+    // Convert to unsigned integer and reduce precision
+    let magnitude = Signed(normal_f64_to_u64(float.abs()) >> 1).reinterpret();
+    // Get offset
+    let offset = -math::long(float.is_sign_negative());
+    // Get sign
+    let sign = (offset * 2) + 1;
+
+    // Construct fraction with sign, magnitude, and offset
+    offset + (magnitude * sign)
 }
 
-/// Upscale `i12` fraction to [`i32`] fraction.
-#[inline(always)]
-pub const fn i12_to_i32(mut fraction: i16) -> i32 {
-    if fraction > 2_i16.pow(11) - 1 {
-        fraction = 2_i16.pow(11) - 1;
-    }
+/// Convert [`u64`] fraction to [`f64`] (ranged 0 to 1).
+pub const fn u64_to_f64(fraction: u64) -> f64 {
+    // Check if fraction is 0 or not
+    let nonzero = Unsigned(-math::long(fraction != 0)).reinterpret();
 
-    if fraction < -2_i16.pow(11) {
-        fraction = -2_i16.pow(11);
-    }
-
-    let fraction = Unsigned(fraction).reinterpret() ^ (1 << (i16::BITS - 5));
-
-    Signed(u12_to_u32(fraction)).reinterpret_with_offset()
+    // Make zero if zero, otherwise no-op
+    f64::from_bits(nonzero_u64_to_f64(fraction).to_bits() & nonzero)
 }
 
-/// Upscale [`i8`] fraction to [`i32`] fraction.
+/// Convert [`i64`] fraction to [`f64`] (ranged -1 to 1).
+pub const fn i64_to_f64(int: i64) -> f64 {
+    // Split sign and magnitude from signed integer
+    let sign = -math::long(int < 0);
+    let uint = int.abs_diff(sign);
+    // Scale up unsigned integer to full range (without true zero)
+    let uint = (uint * 2) + 1;
+
+    // Copy sign back into converted float
+    add_sign_long(nonzero_u64_to_f64(uint), sign)
+}
+
+/// Convert [`f64`] (ranged 0 to 1) to [`u64`] fraction.
 #[inline(always)]
-pub const fn i8_to_i32(fraction: i8) -> i32 {
-    Signed(u8_to_u32(Unsigned(fraction).reinterpret_with_offset()))
-        .reinterpret_with_offset()
+pub const fn f64_to_u64(float: f64) -> u64 {
+    // Normalize and clamp from 0 to 1
+    let float = math::normalize_f64(float).clamp(0.0, 1.0);
+
+    // Convert to unsigned integer
+    normal_f64_to_u64(float)
+}
+
+/// Convert [`f64`] (ranged -1 to 1) to [`i64`] fraction.
+#[inline(always)]
+pub const fn f64_to_i64(float: f64) -> i64 {
+    // Normalize and clamp from -1 to 1
+    let float = math::normalize_f64(float).clamp(-1.0, 1.0);
+
+    // Convert to signed integer
+    normal_f64_to_i64(float)
 }

@@ -1,12 +1,13 @@
 //! Multimedia (Audio, Raster) Channel Newtypes and Conversions
 //!
-//! Each module is enabled with a feature by the same name.
+//! The `unsigned` and `signed` modules are enabled by features with the same
+//! name.
 //!
-//! The types provided by each module are `Ch8`, `Ch12`, `Ch16`, `Ch24` for
-//! integers, and `Ch32` and `Ch64` for floating-point.  Integer channels can
-//! not exceed the range of their minimum and maximum values, while
-//! floating-point channels can.  Floating-point channels can only ever be
-//! normal numbers or ±infinity.
+//! The types provided by the `unsigned` and `signed` module are `Ch8`, `Ch12`,
+//! `Ch16`, `Ch24` for integers, and `Ch32` and `Ch64` for floating-point.
+//! Integer channels can not exceed the range of their minimum and maximum
+//! values, while floating-point channels can.  Floating-point channels can only
+//! ever be normal numbers or ±infinity.
 
 #![no_std]
 #![deny(
@@ -37,7 +38,9 @@ mod math;
 #[macro_use]
 mod macros;
 pub mod convert;
+pub mod downscale;
 pub mod ops;
+pub mod upscale;
 
 #[cfg(feature = "signed")]
 pub mod signed {
