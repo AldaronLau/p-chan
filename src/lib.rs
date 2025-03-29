@@ -6,7 +6,7 @@
 //! integers, and `Ch32` and `Ch64` for floating-point.  Integer channels can
 //! not exceed the range of their minimum and maximum values, while
 //! floating-point channels can.  Floating-point channels can only ever be
-//! normal numbers or infinity.
+//! normal numbers or ±infinity.
 
 #![no_std]
 #![deny(
