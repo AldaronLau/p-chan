@@ -89,41 +89,25 @@ fn upscale_u32() {
         unsigned::Ch24::MID.into_inner(),
         unsigned::Ch24::MIN.into_inner(),
     ];
-    let u32_list = [
-        u32::MAX,
-        0b01111111111111111111111101111111,
-        u32::MIN,
-    ];
+    let u32_list = [u32::MAX, 0b01111111111111111111111101111111, u32::MIN];
 
     for (u32, u24) in u32_list.iter().cloned().zip(u24_list.iter().cloned()) {
         assert_eq!(upscale::u24_to_u32(u24), u32);
     }
-    
-    let u32_list = [
-        u32::MAX,
-        0b01111111111111110111111111111111,
-        u32::MIN,
-    ];
+
+    let u32_list = [u32::MAX, 0b01111111111111110111111111111111, u32::MIN];
 
     for (u32, u16) in u32_list.iter().cloned().zip(u16_list.iter().cloned()) {
         assert_eq!(upscale::u16_to_u32(u16), u32);
     }
-    
-    let u32_list = [
-        u32::MAX,
-        0b01111111111101111111111101111111,
-        u32::MIN,
-    ];
+
+    let u32_list = [u32::MAX, 0b01111111111101111111111101111111, u32::MIN];
 
     for (u32, u12) in u32_list.iter().cloned().zip(u12_list.iter().cloned()) {
         assert_eq!(upscale::u12_to_u32(u12), u32);
     }
-    
-    let u32_list = [
-        u32::MAX,
-        0b01111111011111110111111101111111,
-        u32::MIN,
-    ];
+
+    let u32_list = [u32::MAX, 0b01111111011111110111111101111111, u32::MIN];
 
     for (u32, u8) in u32_list.iter().cloned().zip(u8_list.iter().cloned()) {
         assert_eq!(upscale::u8_to_u32(u8), u32);
