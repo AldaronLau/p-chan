@@ -10,7 +10,9 @@
 macro_rules! channel {
     (($ty: ident, $inner: ty), $attr: meta $(,)?) => {
         #[$attr]
-        #[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Default)]
+        #[derive(
+            Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Default,
+        )]
         #[repr(transparent)]
         pub struct $ty($inner);
 
@@ -57,26 +59,28 @@ macro_rules! group {
 
         impl<Chan, const CH: usize> Default for $ty<Chan, CH>
         where
-            Chan: Default + Copy
+            Chan: Default + Copy,
         {
             fn default() -> Self {
                 Self([Chan::default(); CH])
             }
-        } 
+        }
 
         #[allow(unsafe_code)]
         unsafe impl<Chan, const CH: usize> $crate::bytemuck::Zeroable
             for $ty<Chan, CH>
         where
-            Chan: $crate::bytemuck::Zeroable
-        {}
+            Chan: $crate::bytemuck::Zeroable,
+        {
+        }
 
         #[allow(unsafe_code)]
         unsafe impl<Chan, const CH: usize> $crate::bytemuck::Pod
             for $ty<Chan, CH>
         where
-            Chan: $crate::bytemuck::Pod
-        {}
+            Chan: $crate::bytemuck::Pod,
+        {
+        }
     };
 }
 
