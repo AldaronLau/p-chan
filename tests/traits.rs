@@ -21,6 +21,8 @@ fn impls_traits() {
         + PartialOrd
         + Eq
         + Ord
+        + bytemuck::Zeroable
+        + bytemuck::Pod
     {
     }
 
@@ -38,6 +40,8 @@ fn impls_traits() {
             + PartialOrd
             + Eq
             + Ord
+            + bytemuck::Zeroable
+            + bytemuck::Pod
     {
     }
 
