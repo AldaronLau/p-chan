@@ -3,10 +3,7 @@ use p_chan::upscale;
 #[test]
 fn f32_to_f64() {
     for i in 0..10 {
-        assert_eq!(
-            upscale::f32_to_f64(1.0 / 2.0f32.powi(i)),
-            0.5f64.powi(i.try_into().unwrap()),
-        );
+        assert_eq!(upscale::f32_to_f64(1.0 / 2.0f32.powi(i)), 0.5f64.powi(i));
     }
 
     assert_eq!(upscale::f32_to_f64(0.0), 0.0);

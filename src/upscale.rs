@@ -82,8 +82,23 @@ pub const fn i8_to_i32(fraction: i8) -> i32 {
         .reinterpret_with_offset()
 }
 
-/// Upscale [`f32`] fraction to [`f64`] fraction.
+/// Upscale [`f32`] to [`f64`] and normalize.
 #[inline(always)]
 pub const fn f32_to_f64(float: f32) -> f64 {
     math::normalize_f32(float) as f64
+}
+
+/// Upscale [`u32`] fraction to [`u64`] fraction.
+#[inline(always)]
+pub const fn u32_to_u64(fraction: u32) -> u64 {
+    let fraction = fraction as u64;
+
+    fraction | (fraction << 32)
+}
+
+/// Upscale [`i32`] fraction to [`i64`] fraction.
+#[inline(always)]
+pub const fn i32_to_i64(fraction: i32) -> i64 {
+    Signed(u32_to_u64(Unsigned(fraction).reinterpret_with_offset()))
+        .reinterpret_with_offset()
 }
