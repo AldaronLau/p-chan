@@ -19,6 +19,8 @@ fn impls_traits() {
         + Default
         + PartialEq
         + PartialOrd
+        + Eq
+        + Ord
     {
     }
 
@@ -34,6 +36,8 @@ fn impls_traits() {
             + Default
             + PartialEq
             + PartialOrd
+            + Eq
+            + Ord
     {
     }
 

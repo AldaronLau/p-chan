@@ -213,9 +213,31 @@ macro_rules! ch_float {
         $docs: meta $(,)?
     ) => {
         #[$docs]
-        #[derive(Copy, Clone, PartialEq, PartialOrd, Default)]
+        #[derive(Copy, Clone, Default)]
         #[repr(transparent)]
         pub struct $ty($p);
+
+        impl core::cmp::PartialEq for $ty {
+            fn eq(&self, other: &Self) -> bool {
+                $normalize(self.into_inner()) == $normalize(other.into_inner())
+            }
+        }
+
+        impl core::cmp::Ord for $ty {
+            fn cmp(&self, other: &Self) -> core::cmp::Ordering {
+                $normalize(self.into_inner())
+                    .partial_cmp(&$normalize(other.into_inner()))
+                    .unwrap()
+            }
+        }
+
+        impl core::cmp::Eq for $ty {}
+
+        impl core::cmp::PartialOrd for $ty {
+            fn partial_cmp(&self, other: &Self) -> Option<core::cmp::Ordering> {
+                Some(self.cmp(other))
+            }
+        }
 
         impl core::fmt::Debug for $ty {
             fn fmt(
