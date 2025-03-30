@@ -1,3 +1,89 @@
+/// Declare a newtype channel wrapper.
+///
+/// ```
+/// p_chan::channel!(
+///     (Ch8, p_chan::unsigned::Ch8),
+///     doc = "8-bit channel",
+/// );
+/// ```
+#[macro_export]
+macro_rules! channel {
+    (($ty: ident, $inner: ty), $attr: meta $(,)?) => {
+        #[$attr]
+        #[derive(
+            Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Default,
+        )]
+        #[repr(transparent)]
+        pub struct $ty($inner);
+
+        impl From<$inner> for $ty {
+            fn from(value: $inner) -> Self {
+                Self(value)
+            }
+        }
+
+        impl From<$ty> for $inner {
+            fn from(chan: $ty) -> Self {
+                chan.0
+            }
+        }
+
+        #[allow(unsafe_code)]
+        unsafe impl $crate::bytemuck::Zeroable for $ty {}
+
+        #[allow(unsafe_code)]
+        unsafe impl $crate::bytemuck::Pod for $ty {}
+    };
+}
+
+/// Declare a channel group type.
+///
+/// ```
+/// p_chan::group!(
+///     (Pixel),
+///     doc = "A pixel, made up of individual color channels",
+/// );
+///
+/// p_chan::group!(
+///     (Frame),
+///     doc = "An audio frame, made up of individual speaker channels",
+/// );
+/// ```
+#[macro_export]
+macro_rules! group {
+    (($ty: ident), $attr: meta $(,)?) => {
+        #[$attr]
+        #[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+        #[repr(transparent)]
+        pub struct $ty<Chan, const CH: usize>([Chan; CH]);
+
+        impl<Chan, const CH: usize> Default for $ty<Chan, CH>
+        where
+            Chan: Default + Copy,
+        {
+            fn default() -> Self {
+                Self([Chan::default(); CH])
+            }
+        }
+
+        #[allow(unsafe_code)]
+        unsafe impl<Chan, const CH: usize> $crate::bytemuck::Zeroable
+            for $ty<Chan, CH>
+        where
+            Chan: $crate::bytemuck::Zeroable,
+        {
+        }
+
+        #[allow(unsafe_code)]
+        unsafe impl<Chan, const CH: usize> $crate::bytemuck::Pod
+            for $ty<Chan, CH>
+        where
+            Chan: $crate::bytemuck::Pod,
+        {
+        }
+    };
+}
+
 macro_rules! ch_int {
     (
         ($ty: ident, $p: ty, $b: ty, $normalize: path, $midpoint: item),
@@ -112,6 +198,12 @@ macro_rules! ch_int {
                 crate::ops::Inversion(self).inv()
             }
         }
+
+        #[allow(unsafe_code)]
+        unsafe impl bytemuck::Zeroable for $ty {}
+
+        #[allow(unsafe_code)]
+        unsafe impl bytemuck::Pod for $ty {}
     };
 }
 
@@ -121,9 +213,31 @@ macro_rules! ch_float {
         $docs: meta $(,)?
     ) => {
         #[$docs]
-        #[derive(Copy, Clone, PartialEq, PartialOrd, Default)]
+        #[derive(Copy, Clone, Default)]
         #[repr(transparent)]
         pub struct $ty($p);
+
+        impl core::cmp::PartialEq for $ty {
+            fn eq(&self, other: &Self) -> bool {
+                $normalize(self.into_inner()) == $normalize(other.into_inner())
+            }
+        }
+
+        impl core::cmp::Ord for $ty {
+            fn cmp(&self, other: &Self) -> core::cmp::Ordering {
+                $normalize(self.into_inner())
+                    .partial_cmp(&$normalize(other.into_inner()))
+                    .unwrap()
+            }
+        }
+
+        impl core::cmp::Eq for $ty {}
+
+        impl core::cmp::PartialOrd for $ty {
+            fn partial_cmp(&self, other: &Self) -> Option<core::cmp::Ordering> {
+                Some(self.cmp(other))
+            }
+        }
 
         impl core::fmt::Debug for $ty {
             fn fmt(
@@ -228,5 +342,11 @@ macro_rules! ch_float {
                 crate::ops::Inversion(self).inv()
             }
         }
+
+        #[allow(unsafe_code)]
+        unsafe impl bytemuck::Zeroable for $ty {}
+
+        #[allow(unsafe_code)]
+        unsafe impl bytemuck::Pod for $ty {}
     };
 }

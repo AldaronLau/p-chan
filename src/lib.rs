@@ -5,9 +5,17 @@
 //!
 //! The types provided by the `unsigned` and `signed` module are `Ch8`, `Ch12`,
 //! `Ch16`, `Ch24` for integers, and `Ch32` and `Ch64` for floating-point.
-//! Integer channels can not exceed the range of their minimum and maximum
-//! values, while floating-point channels can.  Floating-point channels can only
-//! ever be normal numbers or ±infinity.
+//!
+//! Math operations on integer channels won't exceed the range of their minimum
+//! and maximum values, while math on floating-point channels can.
+//! Math operations on floating-point channels will only result in normal
+//! numbers or ±infinity.  Floating-point channels implement [`Eq`] and [`Ord`]
+//! since NaN is always flushed to zero.
+//!
+//! Channels support casting with the [`bytemuck`] crate, after which integer
+//! channels may contain out of range values and floating-point channels could
+//! contain NaN or denormals.  To flush denormals and NaN to zero and clamp
+//! integer ranges you can use [`ops::Sum::add`] on each channel value.
 
 #![no_std]
 #![deny(
@@ -32,6 +40,8 @@
     html_logo_url = "https://raw.githubusercontent.com/AldaronLau/p-chan/v0/res/icon.png",
     html_favicon_url = "https://raw.githubusercontent.com/AldaronLau/p-chan/v0/res/icon.png"
 )]
+
+pub use bytemuck;
 
 mod math;
 #[cfg(any(feature = "unsigned", feature = "signed"))]
