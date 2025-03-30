@@ -16,6 +16,16 @@ macro_rules! channel {
         #[repr(transparent)]
         pub struct $ty($inner);
 
+        impl $ty {
+            fn __() {
+                struct Impl<T>(core::marker::PhantomData<fn() -> T>)
+                where
+                    T: $crate::bytemuck::Pod + $crate::bytemuck::Zeroable;
+
+                const INNER: Impl<$inner> = Impl(core::marker::PhantomData);
+            }
+        }
+
         impl From<$inner> for $ty {
             fn from(value: $inner) -> Self {
                 Self(value)
