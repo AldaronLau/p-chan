@@ -2,9 +2,23 @@
 
 use crate::math::{self, Signed, Unsigned};
 
+#[inline(always)]
+const fn clamp(mut fraction: u32, min: u32, max: u32) -> u32 {
+    if fraction < min {
+        fraction = min;
+    }
+
+    if fraction > max {
+        fraction = max;
+    }
+
+    fraction
+}
+
 /// Upscale `u24` fraction to [`u32`] fraction.
 #[inline(always)]
 pub const fn u24_to_u32(fraction: u32) -> u32 {
+    let fraction = clamp(fraction, 0, u32::MAX >> 8);
     let upper = fraction << 8;
     let lower = upper >> 24;
 
@@ -22,12 +36,10 @@ pub const fn u16_to_u32(fraction: u16) -> u32 {
 /// Upscale `u12` fraction to [`u32`] fraction.
 #[inline(always)]
 pub const fn u12_to_u32(fraction: u16) -> u32 {
-    let fraction = fraction as u32;
-    let upper = fraction << 4;
-    let middle = upper >> 12;
-    let lower = upper >> 24;
+    let fraction = clamp(fraction as u32, 0, u32::MAX >> 20);
+    let fraction = fraction | (fraction << 12);
 
-    upper | middle | lower
+    u24_to_u32(fraction)
 }
 
 /// Upscale [`u8`] fraction to [`u32`] fraction.
@@ -38,16 +50,11 @@ pub const fn u8_to_u32(fraction: u8) -> u32 {
 
 /// Upscale `i24` fraction to [`i32`] fraction.
 #[inline(always)]
-pub const fn i24_to_i32(mut fraction: i32) -> i32 {
-    if fraction > 2_i32.pow(23) - 1 {
-        fraction = 2_i32.pow(23) - 1;
-    }
+pub const fn i24_to_i32(fraction: i32) -> i32 {
+    const MIN: u32 = Unsigned(-2_i32.pow(23)).reinterpret_with_offset();
 
-    if fraction < -2_i32.pow(23) {
-        fraction = -2_i32.pow(23);
-    }
-
-    let fraction = Unsigned(fraction).reinterpret() ^ (1 << (i32::BITS - 9));
+    let fraction = Unsigned(fraction).reinterpret_with_offset();
+    let fraction = fraction.saturating_sub(MIN);
 
     Signed(u24_to_u32(fraction)).reinterpret_with_offset()
 }
@@ -61,16 +68,11 @@ pub const fn i16_to_i32(fraction: i16) -> i32 {
 
 /// Upscale `i12` fraction to [`i32`] fraction.
 #[inline(always)]
-pub const fn i12_to_i32(mut fraction: i16) -> i32 {
-    if fraction > 2_i16.pow(11) - 1 {
-        fraction = 2_i16.pow(11) - 1;
-    }
+pub const fn i12_to_i32(fraction: i16) -> i32 {
+    const MIN: u16 = Unsigned(-2_i16.pow(11)).reinterpret_with_offset();
 
-    if fraction < -2_i16.pow(11) {
-        fraction = -2_i16.pow(11);
-    }
-
-    let fraction = Unsigned(fraction).reinterpret() ^ (1 << (i16::BITS - 5));
+    let fraction = Unsigned(fraction).reinterpret_with_offset();
+    let fraction = fraction.saturating_sub(MIN);
 
     Signed(u12_to_u32(fraction)).reinterpret_with_offset()
 }
@@ -100,5 +102,72 @@ pub const fn u32_to_u64(fraction: u32) -> u64 {
 #[inline(always)]
 pub const fn i32_to_i64(fraction: i32) -> i64 {
     Signed(u32_to_u64(Unsigned(fraction).reinterpret_with_offset()))
+        .reinterpret_with_offset()
+}
+
+/// Upscale `u24` fraction to [`u64`] fraction.
+#[inline(always)]
+pub const fn u24_to_u64(fraction: u32) -> u64 {
+    let fraction = clamp(fraction, 0, u32::MAX >> 8) as u64;
+    let upper = fraction << 40;
+    let middle = upper >> 24;
+    let lower = middle >> 24;
+
+    upper | middle | lower
+}
+
+/// Upscale [`u16`] fraction to [`u64`] fraction.
+#[inline(always)]
+pub const fn u16_to_u64(fraction: u16) -> u64 {
+    u32_to_u64(u16_to_u32(fraction))
+}
+
+/// Upscale `u12` fraction to [`u64`] fraction.
+#[inline(always)]
+pub const fn u12_to_u64(fraction: u16) -> u64 {
+    let fraction = u12_to_u32(fraction) >> 8;
+
+    u24_to_u64(fraction)
+}
+
+/// Upscale [`u8`] fraction to [`u64`] fraction.
+#[inline(always)]
+pub const fn u8_to_u64(fraction: u8) -> u64 {
+    u32_to_u64(u8_to_u32(fraction))
+}
+
+/// Upscale `i24` fraction to [`i64`] fraction.
+#[inline(always)]
+pub const fn i24_to_i64(fraction: i32) -> i64 {
+    const MIN: u32 = Unsigned(-2_i32.pow(23)).reinterpret_with_offset();
+
+    let fraction = Unsigned(fraction).reinterpret_with_offset();
+    let fraction = fraction.saturating_sub(MIN);
+
+    Signed(u24_to_u64(fraction)).reinterpret_with_offset()
+}
+
+/// Upscale [`i16`] fraction to [`i64`] fraction.
+#[inline(always)]
+pub const fn i16_to_i64(fraction: i16) -> i64 {
+    Signed(u16_to_u64(Unsigned(fraction).reinterpret_with_offset()))
+        .reinterpret_with_offset()
+}
+
+/// Upscale `i12` fraction to [`i64`] fraction.
+#[inline(always)]
+pub const fn i12_to_i64(fraction: i16) -> i64 {
+    const MIN: u16 = Unsigned(-2_i16.pow(11)).reinterpret_with_offset();
+
+    let fraction = Unsigned(fraction).reinterpret_with_offset();
+    let fraction = fraction.saturating_sub(MIN);
+
+    Signed(u12_to_u64(fraction)).reinterpret_with_offset()
+}
+
+/// Upscale [`i8`] fraction to [`i64`] fraction.
+#[inline(always)]
+pub const fn i8_to_i64(fraction: i8) -> i64 {
+    Signed(u8_to_u64(Unsigned(fraction).reinterpret_with_offset()))
         .reinterpret_with_offset()
 }
