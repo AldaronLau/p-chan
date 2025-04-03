@@ -105,6 +105,23 @@ macro_rules! int_channel {
                 }
             }
         }
+
+        impl<const N: usize> Product<$type, N> {
+            /// Multiply for the product.
+            pub const fn mul(self) -> $type {
+                let mut ret = <$type>::MAX;
+                let mut i = 0;
+
+                loop {
+                    if i >= N {
+                        break ret;
+                    }
+
+                    ret.int_multiply(self.0[i]);
+                    i += 1;
+                }
+            }
+        }
     };
 }
 
