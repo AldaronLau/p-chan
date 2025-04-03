@@ -171,6 +171,24 @@ macro_rules! ch_int {
 
                 Self(this)
             }
+
+            pub(crate) const fn int_multiply(&mut self, rhs: Self) {
+                let this = self.into_inner() as $b;
+                let rhs = rhs.into_inner() as $b;
+                let min = Self::MIN.into_inner() as $b;
+                let max = Self::MAX.into_inner() as $b;
+                let mut res = (this * rhs) / max;
+
+                if res < min {
+                    res = min;
+                }
+
+                if res > max {
+                    res = max;
+                }
+
+                *self = Self(res as $p);
+            }
         }
 
         impl core::ops::Add for $ty {
@@ -182,12 +200,26 @@ macro_rules! ch_int {
             }
         }
 
+        impl core::ops::AddAssign for $ty {
+            #[inline(always)]
+            fn add_assign(&mut self, rhs: Self) {
+                *self = *self + rhs;
+            }
+        }
+
         impl core::ops::Sub for $ty {
             type Output = Self;
 
             #[inline(always)]
             fn sub(self, rhs: Self) -> Self {
                 crate::ops::Difference(self, [rhs]).sub()
+            }
+        }
+
+        impl core::ops::SubAssign for $ty {
+            #[inline(always)]
+            fn sub_assign(&mut self, rhs: Self) {
+                *self = *self - rhs;
             }
         }
 
@@ -206,6 +238,23 @@ macro_rules! ch_int {
             #[inline(always)]
             fn not(self) -> Self {
                 crate::ops::Inversion(self).inv()
+            }
+        }
+
+        impl core::ops::Mul for $ty {
+            type Output = Self;
+
+            #[inline(always)]
+            fn mul(mut self, rhs: Self) -> Self {
+                self.int_multiply(rhs);
+                self
+            }
+        }
+
+        impl core::ops::MulAssign for $ty {
+            #[inline(always)]
+            fn mul_assign(&mut self, rhs: Self) {
+                *self = *self * rhs;
             }
         }
 
@@ -326,12 +375,26 @@ macro_rules! ch_float {
             }
         }
 
+        impl core::ops::AddAssign for $ty {
+            #[inline(always)]
+            fn add_assign(&mut self, rhs: Self) {
+                *self = *self + rhs;
+            }
+        }
+
         impl core::ops::Sub for $ty {
             type Output = Self;
 
             #[inline(always)]
             fn sub(self, rhs: Self) -> Self {
                 crate::ops::Difference(self, [rhs]).sub()
+            }
+        }
+
+        impl core::ops::SubAssign for $ty {
+            #[inline(always)]
+            fn sub_assign(&mut self, rhs: Self) {
+                *self = *self - rhs;
             }
         }
 
@@ -350,6 +413,22 @@ macro_rules! ch_float {
             #[inline(always)]
             fn not(self) -> Self {
                 crate::ops::Inversion(self).inv()
+            }
+        }
+
+        impl core::ops::Mul for $ty {
+            type Output = Self;
+
+            #[inline(always)]
+            fn mul(self, rhs: Self) -> Self {
+                crate::ops::Product([self, rhs]).mul()
+            }
+        }
+
+        impl core::ops::MulAssign for $ty {
+            #[inline(always)]
+            fn mul_assign(&mut self, rhs: Self) {
+                *self = *self * rhs;
             }
         }
 

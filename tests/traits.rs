@@ -1,6 +1,6 @@
 use std::{
     fmt::{Debug, Display},
-    ops::{Add, Neg, Not, Sub},
+    ops::{Add, AddAssign, Mul, MulAssign, Neg, Not, Sub, SubAssign},
 };
 
 #[test]
@@ -10,6 +10,10 @@ fn impls_traits() {
     trait AllTraits:
         Add
         + Sub
+        + Mul
+        + AddAssign
+        + SubAssign
+        + MulAssign
         + Not
         + Neg
         + Clone
@@ -29,6 +33,10 @@ fn impls_traits() {
     impl<T> AllTraits for T where
         T: Add
             + Sub
+            + Mul
+            + AddAssign
+            + SubAssign
+            + MulAssign
             + Not
             + Neg
             + Clone
@@ -303,4 +311,215 @@ fn ops_inv() {
     assert_eq!(!p_chan::unsigned::Ch24::MAX, p_chan::unsigned::Ch24::MIN);
     assert_eq!(!p_chan::unsigned::Ch32::MAX, p_chan::unsigned::Ch32::MIN);
     assert_eq!(!p_chan::unsigned::Ch64::MAX, p_chan::unsigned::Ch64::MIN);
+}
+
+#[test]
+fn ops_mul() {
+    // 1 × 1 unsigned
+    assert_eq!(
+        p_chan::unsigned::Ch8::MAX * p_chan::unsigned::Ch8::MAX,
+        p_chan::unsigned::Ch8::MAX,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch12::MAX * p_chan::unsigned::Ch12::MAX,
+        p_chan::unsigned::Ch12::MAX,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch16::MAX * p_chan::unsigned::Ch16::MAX,
+        p_chan::unsigned::Ch16::MAX,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch24::MAX * p_chan::unsigned::Ch24::MAX,
+        p_chan::unsigned::Ch24::MAX,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch32::MAX * p_chan::unsigned::Ch32::MAX,
+        p_chan::unsigned::Ch32::MAX,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch64::MAX * p_chan::unsigned::Ch64::MAX,
+        p_chan::unsigned::Ch64::MAX,
+    );
+
+    // 1 × 1 signed
+    assert_eq!(
+        p_chan::signed::Ch8::MAX * p_chan::signed::Ch8::MAX,
+        p_chan::signed::Ch8::MAX,
+    );
+    assert_eq!(
+        p_chan::signed::Ch12::MAX * p_chan::signed::Ch12::MAX,
+        p_chan::signed::Ch12::MAX,
+    );
+    assert_eq!(
+        p_chan::signed::Ch16::MAX * p_chan::signed::Ch16::MAX,
+        p_chan::signed::Ch16::MAX,
+    );
+    assert_eq!(
+        p_chan::signed::Ch24::MAX * p_chan::signed::Ch24::MAX,
+        p_chan::signed::Ch24::MAX,
+    );
+    assert_eq!(
+        p_chan::signed::Ch32::MAX * p_chan::signed::Ch32::MAX,
+        p_chan::signed::Ch32::MAX,
+    );
+    assert_eq!(
+        p_chan::signed::Ch64::MAX * p_chan::signed::Ch64::MAX,
+        p_chan::signed::Ch64::MAX,
+    );
+
+    // 1 × 0.5 unsigned
+    assert_eq!(
+        p_chan::unsigned::Ch8::MAX * p_chan::unsigned::Ch8::MID,
+        p_chan::unsigned::Ch8::MID,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch12::MAX * p_chan::unsigned::Ch12::MID,
+        p_chan::unsigned::Ch12::MID,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch16::MAX * p_chan::unsigned::Ch16::MID,
+        p_chan::unsigned::Ch16::MID,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch24::MAX * p_chan::unsigned::Ch24::MID,
+        p_chan::unsigned::Ch24::MID,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch32::MAX * p_chan::unsigned::Ch32::MID,
+        p_chan::unsigned::Ch32::MID,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch64::MAX * p_chan::unsigned::Ch64::MID,
+        p_chan::unsigned::Ch64::MID,
+    );
+
+    // 1 × 0 signed
+    assert_eq!(
+        p_chan::signed::Ch8::MAX * p_chan::signed::Ch8::MID,
+        p_chan::signed::Ch8::MID,
+    );
+    assert_eq!(
+        p_chan::signed::Ch12::MAX * p_chan::signed::Ch12::MID,
+        p_chan::signed::Ch12::MID,
+    );
+    assert_eq!(
+        p_chan::signed::Ch16::MAX * p_chan::signed::Ch16::MID,
+        p_chan::signed::Ch16::MID,
+    );
+    assert_eq!(
+        p_chan::signed::Ch24::MAX * p_chan::signed::Ch24::MID,
+        p_chan::signed::Ch24::MID,
+    );
+    assert_eq!(
+        p_chan::signed::Ch32::MAX * p_chan::signed::Ch32::MID,
+        p_chan::signed::Ch32::MID,
+    );
+    assert_eq!(
+        p_chan::signed::Ch64::MAX * p_chan::signed::Ch64::MID,
+        p_chan::signed::Ch64::MID,
+    );
+
+    // 1 × 0 unsigned
+    assert_eq!(
+        p_chan::unsigned::Ch8::MAX * p_chan::unsigned::Ch8::MIN,
+        p_chan::unsigned::Ch8::MIN,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch12::MAX * p_chan::unsigned::Ch12::MIN,
+        p_chan::unsigned::Ch12::MIN,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch16::MAX * p_chan::unsigned::Ch16::MIN,
+        p_chan::unsigned::Ch16::MIN,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch24::MAX * p_chan::unsigned::Ch24::MIN,
+        p_chan::unsigned::Ch24::MIN,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch32::MAX * p_chan::unsigned::Ch32::MIN,
+        p_chan::unsigned::Ch32::MIN,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch64::MAX * p_chan::unsigned::Ch64::MIN,
+        p_chan::unsigned::Ch64::MIN,
+    );
+
+    // 1 × -1 signed
+    assert_eq!(
+        p_chan::signed::Ch8::MAX * p_chan::signed::Ch8::MIN,
+        p_chan::signed::Ch8::MIN,
+    );
+    assert_eq!(
+        p_chan::signed::Ch12::MAX * p_chan::signed::Ch12::MIN,
+        p_chan::signed::Ch12::MIN,
+    );
+    assert_eq!(
+        p_chan::signed::Ch16::MAX * p_chan::signed::Ch16::MIN,
+        p_chan::signed::Ch16::MIN,
+    );
+    assert_eq!(
+        p_chan::signed::Ch24::MAX * p_chan::signed::Ch24::MIN,
+        p_chan::signed::Ch24::MIN,
+    );
+    assert_eq!(
+        p_chan::signed::Ch32::MAX * p_chan::signed::Ch32::MIN,
+        p_chan::signed::Ch32::MIN,
+    );
+    assert_eq!(
+        p_chan::signed::Ch64::MAX * p_chan::signed::Ch64::MIN,
+        p_chan::signed::Ch64::MIN,
+    );
+
+    // 0 × 0 unsigned
+    assert_eq!(
+        p_chan::unsigned::Ch8::MIN * p_chan::unsigned::Ch8::MIN,
+        p_chan::unsigned::Ch8::MIN,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch12::MIN * p_chan::unsigned::Ch12::MIN,
+        p_chan::unsigned::Ch12::MIN,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch16::MIN * p_chan::unsigned::Ch16::MIN,
+        p_chan::unsigned::Ch16::MIN,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch24::MIN * p_chan::unsigned::Ch24::MIN,
+        p_chan::unsigned::Ch24::MIN,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch32::MIN * p_chan::unsigned::Ch32::MIN,
+        p_chan::unsigned::Ch32::MIN,
+    );
+    assert_eq!(
+        p_chan::unsigned::Ch64::MIN * p_chan::unsigned::Ch64::MIN,
+        p_chan::unsigned::Ch64::MIN,
+    );
+
+    // -1 × -1 signed
+    assert_eq!(
+        p_chan::signed::Ch8::MIN * p_chan::signed::Ch8::MIN,
+        p_chan::signed::Ch8::MAX,
+    );
+    assert_eq!(
+        p_chan::signed::Ch12::MIN * p_chan::signed::Ch12::MIN,
+        p_chan::signed::Ch12::MAX,
+    );
+    assert_eq!(
+        p_chan::signed::Ch16::MIN * p_chan::signed::Ch16::MIN,
+        p_chan::signed::Ch16::MAX,
+    );
+    assert_eq!(
+        p_chan::signed::Ch24::MIN * p_chan::signed::Ch24::MIN,
+        p_chan::signed::Ch24::MAX,
+    );
+    assert_eq!(
+        p_chan::signed::Ch32::MIN * p_chan::signed::Ch32::MIN,
+        p_chan::signed::Ch32::MAX,
+    );
+    assert_eq!(
+        p_chan::signed::Ch64::MIN * p_chan::signed::Ch64::MIN,
+        p_chan::signed::Ch64::MAX,
+    );
 }

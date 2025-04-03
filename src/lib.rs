@@ -15,7 +15,7 @@
 //! Channels support casting with the [`bytemuck`] crate, after which integer
 //! channels may contain out of range values and floating-point channels could
 //! contain NaN or denormals.  To flush denormals and NaN to zero and clamp
-//! integer ranges you can use [`ops::Sum::add`] on each channel value.
+//! integer ranges you can use [`ops::Difference::sub()`] on each channel value.
 
 #![no_std]
 #![deny(
