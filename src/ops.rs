@@ -275,24 +275,650 @@ mod unsigned {
             Ch24::new(Ch24::MAX.into_inner() - self.0.into_inner())
         }
     }
+
+    impl Conversion<Ch8, Ch12> {
+        /// Convert between types.
+        pub const fn conv(value: Ch8) -> Ch12 {
+            let value = crate::upscale::u8_to_u32(value.into_inner());
+
+            Ch12::new(crate::downscale::u32_to_u12(value))
+        }
+    }
+
+    impl Conversion<Ch8, Ch16> {
+        /// Convert between types.
+        pub const fn conv(value: Ch8) -> Ch16 {
+            let value = crate::upscale::u8_to_u32(value.into_inner());
+
+            Ch16::new(crate::downscale::u32_to_u16(value))
+        }
+    }
+
+    impl Conversion<Ch8, Ch24> {
+        /// Convert between types.
+        pub const fn conv(value: Ch8) -> Ch24 {
+            let value = crate::upscale::u8_to_u32(value.into_inner());
+
+            Ch24::new(crate::downscale::u32_to_u24(value))
+        }
+    }
+
+    impl Conversion<Ch8, Ch32> {
+        /// Convert between types.
+        pub const fn conv(value: Ch8) -> Ch32 {
+            let value = crate::upscale::u8_to_u32(value.into_inner());
+
+            Ch32::new(crate::convert::u32_to_f32(value))
+        }
+    }
+
+    impl Conversion<Ch8, Ch64> {
+        /// Convert between types.
+        pub const fn conv(value: Ch8) -> Ch64 {
+            let value = crate::upscale::u8_to_u64(value.into_inner());
+
+            Ch64::new(crate::convert::u64_to_f64(value))
+        }
+    }
+
+    impl Conversion<Ch12, Ch8> {
+        /// Convert between types.
+        pub const fn conv(value: Ch12) -> Ch8 {
+            let value = crate::upscale::u12_to_u32(value.into_inner());
+
+            Ch8::new(crate::downscale::u32_to_u8(value))
+        }
+    }
+
+    impl Conversion<Ch12, Ch16> {
+        /// Convert between types.
+        pub const fn conv(value: Ch12) -> Ch16 {
+            let value = crate::upscale::u12_to_u32(value.into_inner());
+
+            Ch16::new(crate::downscale::u32_to_u16(value))
+        }
+    }
+
+    impl Conversion<Ch12, Ch24> {
+        /// Convert between types.
+        pub const fn conv(value: Ch12) -> Ch24 {
+            let value = crate::upscale::u12_to_u32(value.into_inner());
+
+            Ch24::new(crate::downscale::u32_to_u24(value))
+        }
+    }
+
+    impl Conversion<Ch12, Ch32> {
+        /// Convert between types.
+        pub const fn conv(value: Ch12) -> Ch32 {
+            let value = crate::upscale::u12_to_u32(value.into_inner());
+
+            Ch32::new(crate::convert::u32_to_f32(value))
+        }
+    }
+
+    impl Conversion<Ch12, Ch64> {
+        /// Convert between types.
+        pub const fn conv(value: Ch12) -> Ch64 {
+            let value = crate::upscale::u12_to_u64(value.into_inner());
+
+            Ch64::new(crate::convert::u64_to_f64(value))
+        }
+    }
+
+    impl Conversion<Ch16, Ch8> {
+        /// Convert between types.
+        pub const fn conv(value: Ch16) -> Ch8 {
+            let value = crate::upscale::u16_to_u32(value.into_inner());
+
+            Ch8::new(crate::downscale::u32_to_u8(value))
+        }
+    }
+
+    impl Conversion<Ch16, Ch12> {
+        /// Convert between types.
+        pub const fn conv(value: Ch16) -> Ch12 {
+            let value = crate::upscale::u16_to_u32(value.into_inner());
+
+            Ch12::new(crate::downscale::u32_to_u12(value))
+        }
+    }
+
+    impl Conversion<Ch16, Ch24> {
+        /// Convert between types.
+        pub const fn conv(value: Ch16) -> Ch24 {
+            let value = crate::upscale::u16_to_u32(value.into_inner());
+
+            Ch24::new(crate::downscale::u32_to_u24(value))
+        }
+    }
+
+    impl Conversion<Ch16, Ch32> {
+        /// Convert between types.
+        pub const fn conv(value: Ch16) -> Ch32 {
+            let value = crate::upscale::u16_to_u32(value.into_inner());
+
+            Ch32::new(crate::convert::u32_to_f32(value))
+        }
+    }
+
+    impl Conversion<Ch16, Ch64> {
+        /// Convert between types.
+        pub const fn conv(value: Ch16) -> Ch64 {
+            let value = crate::upscale::u16_to_u64(value.into_inner());
+
+            Ch64::new(crate::convert::u64_to_f64(value))
+        }
+    }
+
+    impl Conversion<Ch24, Ch8> {
+        /// Convert between types.
+        pub const fn conv(value: Ch24) -> Ch8 {
+            let value = crate::upscale::u24_to_u32(value.into_inner());
+
+            Ch8::new(crate::downscale::u32_to_u8(value))
+        }
+    }
+
+    impl Conversion<Ch24, Ch12> {
+        /// Convert between types.
+        pub const fn conv(value: Ch24) -> Ch12 {
+            let value = crate::upscale::u24_to_u32(value.into_inner());
+
+            Ch12::new(crate::downscale::u32_to_u12(value))
+        }
+    }
+
+    impl Conversion<Ch24, Ch16> {
+        /// Convert between types.
+        pub const fn conv(value: Ch24) -> Ch16 {
+            let value = crate::upscale::u24_to_u32(value.into_inner());
+
+            Ch16::new(crate::downscale::u32_to_u16(value))
+        }
+    }
+
+    impl Conversion<Ch24, Ch32> {
+        /// Convert between types.
+        pub const fn conv(value: Ch24) -> Ch32 {
+            let value = crate::upscale::u24_to_u32(value.into_inner());
+
+            Ch32::new(crate::convert::u32_to_f32(value))
+        }
+    }
+
+    impl Conversion<Ch24, Ch64> {
+        /// Convert between types.
+        pub const fn conv(value: Ch24) -> Ch64 {
+            let value = crate::upscale::u24_to_u64(value.into_inner());
+
+            Ch64::new(crate::convert::u64_to_f64(value))
+        }
+    }
+
+    impl Conversion<Ch32, Ch8> {
+        /// Convert between types.
+        pub const fn conv(value: Ch32) -> Ch8 {
+            let value = crate::convert::f32_to_u32(value.into_inner());
+
+            Ch8::new(crate::downscale::u32_to_u8(value))
+        }
+    }
+
+    impl Conversion<Ch32, Ch12> {
+        /// Convert between types.
+        pub const fn conv(value: Ch32) -> Ch12 {
+            let value = crate::convert::f32_to_u32(value.into_inner());
+
+            Ch12::new(crate::downscale::u32_to_u12(value))
+        }
+    }
+
+    impl Conversion<Ch32, Ch16> {
+        /// Convert between types.
+        pub const fn conv(value: Ch32) -> Ch16 {
+            let value = crate::convert::f32_to_u32(value.into_inner());
+
+            Ch16::new(crate::downscale::u32_to_u16(value))
+        }
+    }
+
+    impl Conversion<Ch32, Ch24> {
+        /// Convert between types.
+        pub const fn conv(value: Ch32) -> Ch24 {
+            let value = crate::convert::f32_to_u32(value.into_inner());
+
+            Ch24::new(crate::downscale::u32_to_u24(value))
+        }
+    }
+
+    impl Conversion<Ch32, Ch64> {
+        /// Convert between types.
+        pub const fn conv(value: Ch32) -> Ch64 {
+            let value = crate::upscale::f32_to_f64(value.into_inner());
+
+            Ch64::new(value)
+        }
+    }
+
+    impl Conversion<Ch64, Ch8> {
+        /// Convert between types.
+        pub const fn conv(value: Ch64) -> Ch8 {
+            let value = crate::convert::f64_to_u64(value.into_inner());
+
+            Ch8::new(crate::downscale::u64_to_u8(value))
+        }
+    }
+
+    impl Conversion<Ch64, Ch12> {
+        /// Convert between types.
+        pub const fn conv(value: Ch64) -> Ch12 {
+            let value = crate::convert::f64_to_u64(value.into_inner());
+
+            Ch12::new(crate::downscale::u64_to_u12(value))
+        }
+    }
+
+    impl Conversion<Ch64, Ch16> {
+        /// Convert between types.
+        pub const fn conv(value: Ch64) -> Ch16 {
+            let value = crate::convert::f64_to_u64(value.into_inner());
+
+            Ch16::new(crate::downscale::u64_to_u16(value))
+        }
+    }
+
+    impl Conversion<Ch64, Ch24> {
+        /// Convert between types.
+        pub const fn conv(value: Ch64) -> Ch24 {
+            let value = crate::convert::f64_to_u64(value.into_inner());
+
+            Ch24::new(crate::downscale::u64_to_u24(value))
+        }
+    }
+
+    impl Conversion<Ch64, Ch32> {
+        /// Convert between types.
+        pub const fn conv(value: Ch64) -> Ch32 {
+            let value = crate::downscale::f64_to_f32(value.into_inner());
+
+            Ch32::new(value)
+        }
+    }
+
+    #[cfg(feature = "signed")]
+    mod signed {
+        use super::*;
+        use crate::signed;
+
+        impl Conversion<signed::Ch8, Ch8> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch8) -> Ch8 {
+                let value = crate::upscale::i8_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch8::new(crate::downscale::u32_to_u8(value))
+            }
+        }
+
+        impl Conversion<signed::Ch12, Ch12> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch12) -> Ch12 {
+                let value = crate::upscale::i12_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch12::new(crate::downscale::u32_to_u12(value))
+            }
+        }
+
+        impl Conversion<signed::Ch16, Ch16> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch16) -> Ch16 {
+                let value = crate::upscale::i16_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch16::new(crate::downscale::u32_to_u16(value))
+            }
+        }
+
+        impl Conversion<signed::Ch24, Ch24> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch24) -> Ch24 {
+                let value = crate::upscale::i24_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch24::new(crate::downscale::u32_to_u24(value))
+            }
+        }
+
+        impl Conversion<signed::Ch32, Ch32> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch32) -> Ch32 {
+                let value = crate::convert::f32_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch32::new(crate::convert::u32_to_f32(value))
+            }
+        }
+
+        impl Conversion<signed::Ch64, Ch64> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch64) -> Ch64 {
+                let value = crate::convert::f64_to_i64(value.into_inner());
+                let value = crate::convert::i64_to_u64(value);
+
+                Ch64::new(crate::convert::u64_to_f64(value))
+            }
+        }
+
+        impl Conversion<signed::Ch8, Ch12> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch8) -> Ch12 {
+                let value = crate::upscale::i8_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch12::new(crate::downscale::u32_to_u12(value))
+            }
+        }
+
+        impl Conversion<signed::Ch8, Ch16> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch8) -> Ch16 {
+                let value = crate::upscale::i8_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch16::new(crate::downscale::u32_to_u16(value))
+            }
+        }
+
+        impl Conversion<signed::Ch8, Ch24> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch8) -> Ch24 {
+                let value = crate::upscale::i8_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch24::new(crate::downscale::u32_to_u24(value))
+            }
+        }
+
+        impl Conversion<signed::Ch8, Ch32> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch8) -> Ch32 {
+                let value = crate::upscale::i8_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch32::new(crate::convert::u32_to_f32(value))
+            }
+        }
+
+        impl Conversion<signed::Ch8, Ch64> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch8) -> Ch64 {
+                let value = crate::upscale::i8_to_i64(value.into_inner());
+                let value = crate::convert::i64_to_u64(value);
+
+                Ch64::new(crate::convert::u64_to_f64(value))
+            }
+        }
+
+        impl Conversion<signed::Ch12, Ch8> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch12) -> Ch8 {
+                let value = crate::upscale::i12_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch8::new(crate::downscale::u32_to_u8(value))
+            }
+        }
+
+        impl Conversion<signed::Ch12, Ch16> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch12) -> Ch16 {
+                let value = crate::upscale::i12_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch16::new(crate::downscale::u32_to_u16(value))
+            }
+        }
+
+        impl Conversion<signed::Ch12, Ch24> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch12) -> Ch24 {
+                let value = crate::upscale::i12_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch24::new(crate::downscale::u32_to_u24(value))
+            }
+        }
+
+        impl Conversion<signed::Ch12, Ch32> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch12) -> Ch32 {
+                let value = crate::upscale::i12_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch32::new(crate::convert::u32_to_f32(value))
+            }
+        }
+
+        impl Conversion<signed::Ch12, Ch64> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch12) -> Ch64 {
+                let value = crate::upscale::i12_to_i64(value.into_inner());
+                let value = crate::convert::i64_to_u64(value);
+
+                Ch64::new(crate::convert::u64_to_f64(value))
+            }
+        }
+
+        impl Conversion<signed::Ch16, Ch8> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch16) -> Ch8 {
+                let value = crate::upscale::i16_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch8::new(crate::downscale::u32_to_u8(value))
+            }
+        }
+
+        impl Conversion<signed::Ch16, Ch12> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch16) -> Ch12 {
+                let value = crate::upscale::i16_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch12::new(crate::downscale::u32_to_u12(value))
+            }
+        }
+
+        impl Conversion<signed::Ch16, Ch24> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch16) -> Ch24 {
+                let value = crate::upscale::i16_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch24::new(crate::downscale::u32_to_u24(value))
+            }
+        }
+
+        impl Conversion<signed::Ch16, Ch32> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch16) -> Ch32 {
+                let value = crate::upscale::i16_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch32::new(crate::convert::u32_to_f32(value))
+            }
+        }
+
+        impl Conversion<signed::Ch16, Ch64> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch16) -> Ch64 {
+                let value = crate::upscale::i16_to_i64(value.into_inner());
+                let value = crate::convert::i64_to_u64(value);
+
+                Ch64::new(crate::convert::u64_to_f64(value))
+            }
+        }
+
+        impl Conversion<signed::Ch24, Ch8> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch24) -> Ch8 {
+                let value = crate::upscale::i24_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch8::new(crate::downscale::u32_to_u8(value))
+            }
+        }
+
+        impl Conversion<signed::Ch24, Ch12> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch24) -> Ch12 {
+                let value = crate::upscale::i24_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch12::new(crate::downscale::u32_to_u12(value))
+            }
+        }
+
+        impl Conversion<signed::Ch24, Ch16> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch24) -> Ch16 {
+                let value = crate::upscale::i24_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch16::new(crate::downscale::u32_to_u16(value))
+            }
+        }
+
+        impl Conversion<signed::Ch24, Ch32> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch24) -> Ch32 {
+                let value = crate::upscale::i24_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch32::new(crate::convert::u32_to_f32(value))
+            }
+        }
+
+        impl Conversion<signed::Ch24, Ch64> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch24) -> Ch64 {
+                let value = crate::upscale::i24_to_i64(value.into_inner());
+                let value = crate::convert::i64_to_u64(value);
+
+                Ch64::new(crate::convert::u64_to_f64(value))
+            }
+        }
+
+        impl Conversion<signed::Ch32, Ch8> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch32) -> Ch8 {
+                let value = crate::convert::f32_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch8::new(crate::downscale::u32_to_u8(value))
+            }
+        }
+
+        impl Conversion<signed::Ch32, Ch12> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch32) -> Ch12 {
+                let value = crate::convert::f32_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch12::new(crate::downscale::u32_to_u12(value))
+            }
+        }
+
+        impl Conversion<signed::Ch32, Ch16> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch32) -> Ch16 {
+                let value = crate::convert::f32_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch16::new(crate::downscale::u32_to_u16(value))
+            }
+        }
+
+        impl Conversion<signed::Ch32, Ch24> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch32) -> Ch24 {
+                let value = crate::convert::f32_to_i32(value.into_inner());
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch24::new(crate::downscale::u32_to_u24(value))
+            }
+        }
+
+        impl Conversion<signed::Ch32, Ch64> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch32) -> Ch64 {
+                let value = crate::upscale::f32_to_f64(value.into_inner());
+                let value = crate::convert::f64_to_i64(value);
+                let value = crate::convert::i64_to_u64(value);
+
+                Ch64::new(crate::convert::u64_to_f64(value))
+            }
+        }
+
+        impl Conversion<signed::Ch64, Ch8> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch64) -> Ch8 {
+                let value = crate::convert::f64_to_i64(value.into_inner());
+                let value = crate::convert::i64_to_u64(value);
+
+                Ch8::new(crate::downscale::u64_to_u8(value))
+            }
+        }
+
+        impl Conversion<signed::Ch64, Ch12> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch64) -> Ch12 {
+                let value = crate::convert::f64_to_i64(value.into_inner());
+                let value = crate::convert::i64_to_u64(value);
+
+                Ch12::new(crate::downscale::u64_to_u12(value))
+            }
+        }
+
+        impl Conversion<signed::Ch64, Ch16> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch64) -> Ch16 {
+                let value = crate::convert::f64_to_i64(value.into_inner());
+                let value = crate::convert::i64_to_u64(value);
+
+                Ch16::new(crate::downscale::u64_to_u16(value))
+            }
+        }
+
+        impl Conversion<signed::Ch64, Ch24> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch64) -> Ch24 {
+                let value = crate::convert::f64_to_i64(value.into_inner());
+                let value = crate::convert::i64_to_u64(value);
+
+                Ch24::new(crate::downscale::u64_to_u24(value))
+            }
+        }
+
+        impl Conversion<signed::Ch64, Ch32> {
+            /// Convert between types.
+            pub const fn conv(value: signed::Ch64) -> Ch32 {
+                let value = crate::downscale::f64_to_f32(value.into_inner());
+                let value = crate::convert::f32_to_i32(value);
+                let value = crate::convert::i32_to_u32(value);
+
+                Ch32::new(crate::convert::u32_to_f32(value))
+            }
+        }
+    }
 }
 
 #[cfg(feature = "signed")]
 mod signed {
     use super::*;
     use crate::signed::{Ch8, Ch12, Ch16, Ch24, Ch32, Ch64};
-
-    // FIXME: conversion
-
-    impl Conversion<Ch8, Ch16> {
-        /// Convert between types.
-        pub const fn conv(from: Ch8) -> Ch16 {
-            let little = from.into_inner() as i16;
-            let big = little * 256;
-
-            Ch16::new(little + big)
-        }
-    }
 
     int_channel!(Ch8);
     int_channel!(Ch12);
@@ -368,6 +994,644 @@ mod signed {
         /// Negate the value.
         pub const fn neg(self) -> Ch24 {
             Ch24::new(-1 - self.0.into_inner())
+        }
+    }
+
+    impl Conversion<Ch8, Ch12> {
+        /// Convert between types.
+        pub const fn conv(value: Ch8) -> Ch12 {
+            let value = crate::upscale::i8_to_i32(value.into_inner());
+
+            Ch12::new(crate::downscale::i32_to_i12(value))
+        }
+    }
+
+    impl Conversion<Ch8, Ch16> {
+        /// Convert between types.
+        pub const fn conv(value: Ch8) -> Ch16 {
+            let value = crate::upscale::i8_to_i32(value.into_inner());
+
+            Ch16::new(crate::downscale::i32_to_i16(value))
+        }
+    }
+
+    impl Conversion<Ch8, Ch24> {
+        /// Convert between types.
+        pub const fn conv(value: Ch8) -> Ch24 {
+            let value = crate::upscale::i8_to_i32(value.into_inner());
+
+            Ch24::new(crate::downscale::i32_to_i24(value))
+        }
+    }
+
+    impl Conversion<Ch8, Ch32> {
+        /// Convert between types.
+        pub const fn conv(value: Ch8) -> Ch32 {
+            let value = crate::upscale::i8_to_i32(value.into_inner());
+
+            Ch32::new(crate::convert::i32_to_f32(value))
+        }
+    }
+
+    impl Conversion<Ch8, Ch64> {
+        /// Convert between types.
+        pub const fn conv(value: Ch8) -> Ch64 {
+            let value = crate::upscale::i8_to_i64(value.into_inner());
+
+            Ch64::new(crate::convert::i64_to_f64(value))
+        }
+    }
+
+    impl Conversion<Ch12, Ch8> {
+        /// Convert between types.
+        pub const fn conv(value: Ch12) -> Ch8 {
+            let value = crate::upscale::i12_to_i32(value.into_inner());
+
+            Ch8::new(crate::downscale::i32_to_i8(value))
+        }
+    }
+
+    impl Conversion<Ch12, Ch16> {
+        /// Convert between types.
+        pub const fn conv(value: Ch12) -> Ch16 {
+            let value = crate::upscale::i12_to_i32(value.into_inner());
+
+            Ch16::new(crate::downscale::i32_to_i16(value))
+        }
+    }
+
+    impl Conversion<Ch12, Ch24> {
+        /// Convert between types.
+        pub const fn conv(value: Ch12) -> Ch24 {
+            let value = crate::upscale::i12_to_i32(value.into_inner());
+
+            Ch24::new(crate::downscale::i32_to_i24(value))
+        }
+    }
+
+    impl Conversion<Ch12, Ch32> {
+        /// Convert between types.
+        pub const fn conv(value: Ch12) -> Ch32 {
+            let value = crate::upscale::i12_to_i32(value.into_inner());
+
+            Ch32::new(crate::convert::i32_to_f32(value))
+        }
+    }
+
+    impl Conversion<Ch12, Ch64> {
+        /// Convert between types.
+        pub const fn conv(value: Ch12) -> Ch64 {
+            let value = crate::upscale::i12_to_i64(value.into_inner());
+
+            Ch64::new(crate::convert::i64_to_f64(value))
+        }
+    }
+
+    impl Conversion<Ch16, Ch8> {
+        /// Convert between types.
+        pub const fn conv(value: Ch16) -> Ch8 {
+            let value = crate::upscale::i16_to_i32(value.into_inner());
+
+            Ch8::new(crate::downscale::i32_to_i8(value))
+        }
+    }
+
+    impl Conversion<Ch16, Ch12> {
+        /// Convert between types.
+        pub const fn conv(value: Ch16) -> Ch12 {
+            let value = crate::upscale::i16_to_i32(value.into_inner());
+
+            Ch12::new(crate::downscale::i32_to_i12(value))
+        }
+    }
+
+    impl Conversion<Ch16, Ch24> {
+        /// Convert between types.
+        pub const fn conv(value: Ch16) -> Ch24 {
+            let value = crate::upscale::i16_to_i32(value.into_inner());
+
+            Ch24::new(crate::downscale::i32_to_i24(value))
+        }
+    }
+
+    impl Conversion<Ch16, Ch32> {
+        /// Convert between types.
+        pub const fn conv(value: Ch16) -> Ch32 {
+            let value = crate::upscale::i16_to_i32(value.into_inner());
+
+            Ch32::new(crate::convert::i32_to_f32(value))
+        }
+    }
+
+    impl Conversion<Ch16, Ch64> {
+        /// Convert between types.
+        pub const fn conv(value: Ch16) -> Ch64 {
+            let value = crate::upscale::i16_to_i64(value.into_inner());
+
+            Ch64::new(crate::convert::i64_to_f64(value))
+        }
+    }
+
+    impl Conversion<Ch24, Ch8> {
+        /// Convert between types.
+        pub const fn conv(value: Ch24) -> Ch8 {
+            let value = crate::upscale::i24_to_i32(value.into_inner());
+
+            Ch8::new(crate::downscale::i32_to_i8(value))
+        }
+    }
+
+    impl Conversion<Ch24, Ch12> {
+        /// Convert between types.
+        pub const fn conv(value: Ch24) -> Ch12 {
+            let value = crate::upscale::i24_to_i32(value.into_inner());
+
+            Ch12::new(crate::downscale::i32_to_i12(value))
+        }
+    }
+
+    impl Conversion<Ch24, Ch16> {
+        /// Convert between types.
+        pub const fn conv(value: Ch24) -> Ch16 {
+            let value = crate::upscale::i24_to_i32(value.into_inner());
+
+            Ch16::new(crate::downscale::i32_to_i16(value))
+        }
+    }
+
+    impl Conversion<Ch24, Ch32> {
+        /// Convert between types.
+        pub const fn conv(value: Ch24) -> Ch32 {
+            let value = crate::upscale::i24_to_i32(value.into_inner());
+
+            Ch32::new(crate::convert::i32_to_f32(value))
+        }
+    }
+
+    impl Conversion<Ch24, Ch64> {
+        /// Convert between types.
+        pub const fn conv(value: Ch24) -> Ch64 {
+            let value = crate::upscale::i24_to_i64(value.into_inner());
+
+            Ch64::new(crate::convert::i64_to_f64(value))
+        }
+    }
+
+    impl Conversion<Ch32, Ch8> {
+        /// Convert between types.
+        pub const fn conv(value: Ch32) -> Ch8 {
+            let value = crate::convert::f32_to_i32(value.into_inner());
+
+            Ch8::new(crate::downscale::i32_to_i8(value))
+        }
+    }
+
+    impl Conversion<Ch32, Ch12> {
+        /// Convert between types.
+        pub const fn conv(value: Ch32) -> Ch12 {
+            let value = crate::convert::f32_to_i32(value.into_inner());
+
+            Ch12::new(crate::downscale::i32_to_i12(value))
+        }
+    }
+
+    impl Conversion<Ch32, Ch16> {
+        /// Convert between types.
+        pub const fn conv(value: Ch32) -> Ch16 {
+            let value = crate::convert::f32_to_i32(value.into_inner());
+
+            Ch16::new(crate::downscale::i32_to_i16(value))
+        }
+    }
+
+    impl Conversion<Ch32, Ch24> {
+        /// Convert between types.
+        pub const fn conv(value: Ch32) -> Ch24 {
+            let value = crate::convert::f32_to_i32(value.into_inner());
+
+            Ch24::new(crate::downscale::i32_to_i24(value))
+        }
+    }
+
+    impl Conversion<Ch32, Ch64> {
+        /// Convert between types.
+        pub const fn conv(value: Ch32) -> Ch64 {
+            let value = crate::upscale::f32_to_f64(value.into_inner());
+
+            Ch64::new(value)
+        }
+    }
+
+    impl Conversion<Ch64, Ch8> {
+        /// Convert between types.
+        pub const fn conv(value: Ch64) -> Ch8 {
+            let value = crate::convert::f64_to_i64(value.into_inner());
+
+            Ch8::new(crate::downscale::i64_to_i8(value))
+        }
+    }
+
+    impl Conversion<Ch64, Ch12> {
+        /// Convert between types.
+        pub const fn conv(value: Ch64) -> Ch12 {
+            let value = crate::convert::f64_to_i64(value.into_inner());
+
+            Ch12::new(crate::downscale::i64_to_i12(value))
+        }
+    }
+
+    impl Conversion<Ch64, Ch16> {
+        /// Convert between types.
+        pub const fn conv(value: Ch64) -> Ch16 {
+            let value = crate::convert::f64_to_i64(value.into_inner());
+
+            Ch16::new(crate::downscale::i64_to_i16(value))
+        }
+    }
+
+    impl Conversion<Ch64, Ch24> {
+        /// Convert between types.
+        pub const fn conv(value: Ch64) -> Ch24 {
+            let value = crate::convert::f64_to_i64(value.into_inner());
+
+            Ch24::new(crate::downscale::i64_to_i24(value))
+        }
+    }
+
+    impl Conversion<Ch64, Ch32> {
+        /// Convert between types.
+        pub const fn conv(value: Ch64) -> Ch32 {
+            let value = crate::downscale::f64_to_f32(value.into_inner());
+
+            Ch32::new(value)
+        }
+    }
+
+    #[cfg(feature = "unsigned")]
+    mod unsigned {
+        use super::*;
+        use crate::unsigned;
+
+        impl Conversion<unsigned::Ch8, Ch8> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch8) -> Ch8 {
+                let value = crate::upscale::u8_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch8::new(crate::downscale::i32_to_i8(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch12, Ch12> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch12) -> Ch12 {
+                let value = crate::upscale::u12_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch12::new(crate::downscale::i32_to_i12(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch16, Ch16> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch16) -> Ch16 {
+                let value = crate::upscale::u16_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch16::new(crate::downscale::i32_to_i16(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch24, Ch24> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch24) -> Ch24 {
+                let value = crate::upscale::u24_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch24::new(crate::downscale::i32_to_i24(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch32, Ch32> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch32) -> Ch32 {
+                let value = crate::convert::f32_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch32::new(crate::convert::i32_to_f32(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch64, Ch64> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch64) -> Ch64 {
+                let value = crate::convert::f64_to_u64(value.into_inner());
+                let value = crate::convert::u64_to_i64(value);
+
+                Ch64::new(crate::convert::i64_to_f64(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch8, Ch12> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch8) -> Ch12 {
+                let value = crate::upscale::u8_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch12::new(crate::downscale::i32_to_i12(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch8, Ch16> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch8) -> Ch16 {
+                let value = crate::upscale::u8_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch16::new(crate::downscale::i32_to_i16(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch8, Ch24> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch8) -> Ch24 {
+                let value = crate::upscale::u8_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch24::new(crate::downscale::i32_to_i24(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch8, Ch32> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch8) -> Ch32 {
+                let value = crate::upscale::u8_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch32::new(crate::convert::i32_to_f32(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch8, Ch64> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch8) -> Ch64 {
+                let value = crate::upscale::u8_to_u64(value.into_inner());
+                let value = crate::convert::u64_to_i64(value);
+
+                Ch64::new(crate::convert::i64_to_f64(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch12, Ch8> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch12) -> Ch8 {
+                let value = crate::upscale::u12_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch8::new(crate::downscale::i32_to_i8(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch12, Ch16> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch12) -> Ch16 {
+                let value = crate::upscale::u12_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch16::new(crate::downscale::i32_to_i16(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch12, Ch24> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch12) -> Ch24 {
+                let value = crate::upscale::u12_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch24::new(crate::downscale::i32_to_i24(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch12, Ch32> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch12) -> Ch32 {
+                let value = crate::upscale::u12_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch32::new(crate::convert::i32_to_f32(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch12, Ch64> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch12) -> Ch64 {
+                let value = crate::upscale::u12_to_u64(value.into_inner());
+                let value = crate::convert::u64_to_i64(value);
+
+                Ch64::new(crate::convert::i64_to_f64(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch16, Ch8> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch16) -> Ch8 {
+                let value = crate::upscale::u16_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch8::new(crate::downscale::i32_to_i8(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch16, Ch12> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch16) -> Ch12 {
+                let value = crate::upscale::u16_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch12::new(crate::downscale::i32_to_i12(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch16, Ch24> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch16) -> Ch24 {
+                let value = crate::upscale::u16_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch24::new(crate::downscale::i32_to_i24(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch16, Ch32> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch16) -> Ch32 {
+                let value = crate::upscale::u16_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch32::new(crate::convert::i32_to_f32(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch16, Ch64> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch16) -> Ch64 {
+                let value = crate::upscale::u16_to_u64(value.into_inner());
+                let value = crate::convert::u64_to_i64(value);
+
+                Ch64::new(crate::convert::i64_to_f64(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch24, Ch8> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch24) -> Ch8 {
+                let value = crate::upscale::u24_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch8::new(crate::downscale::i32_to_i8(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch24, Ch12> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch24) -> Ch12 {
+                let value = crate::upscale::u24_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch12::new(crate::downscale::i32_to_i12(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch24, Ch16> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch24) -> Ch16 {
+                let value = crate::upscale::u24_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch16::new(crate::downscale::i32_to_i16(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch24, Ch32> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch24) -> Ch32 {
+                let value = crate::upscale::u24_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch32::new(crate::convert::i32_to_f32(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch24, Ch64> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch24) -> Ch64 {
+                let value = crate::upscale::u24_to_u64(value.into_inner());
+                let value = crate::convert::u64_to_i64(value);
+
+                Ch64::new(crate::convert::i64_to_f64(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch32, Ch8> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch32) -> Ch8 {
+                let value = crate::convert::f32_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch8::new(crate::downscale::i32_to_i8(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch32, Ch12> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch32) -> Ch12 {
+                let value = crate::convert::f32_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch12::new(crate::downscale::i32_to_i12(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch32, Ch16> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch32) -> Ch16 {
+                let value = crate::convert::f32_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch16::new(crate::downscale::i32_to_i16(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch32, Ch24> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch32) -> Ch24 {
+                let value = crate::convert::f32_to_u32(value.into_inner());
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch24::new(crate::downscale::i32_to_i24(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch32, Ch64> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch32) -> Ch64 {
+                let value = crate::upscale::f32_to_f64(value.into_inner());
+                let value = crate::convert::f64_to_u64(value);
+                let value = crate::convert::u64_to_i64(value);
+
+                Ch64::new(crate::convert::i64_to_f64(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch64, Ch8> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch64) -> Ch8 {
+                let value = crate::convert::f64_to_u64(value.into_inner());
+                let value = crate::convert::u64_to_i64(value);
+
+                Ch8::new(crate::downscale::i64_to_i8(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch64, Ch12> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch64) -> Ch12 {
+                let value = crate::convert::f64_to_u64(value.into_inner());
+                let value = crate::convert::u64_to_i64(value);
+
+                Ch12::new(crate::downscale::i64_to_i12(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch64, Ch16> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch64) -> Ch16 {
+                let value = crate::convert::f64_to_u64(value.into_inner());
+                let value = crate::convert::u64_to_i64(value);
+
+                Ch16::new(crate::downscale::i64_to_i16(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch64, Ch24> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch64) -> Ch24 {
+                let value = crate::convert::f64_to_u64(value.into_inner());
+                let value = crate::convert::u64_to_i64(value);
+
+                Ch24::new(crate::downscale::i64_to_i24(value))
+            }
+        }
+
+        impl Conversion<unsigned::Ch64, Ch32> {
+            /// Convert between types.
+            pub const fn conv(value: unsigned::Ch64) -> Ch32 {
+                let value = crate::downscale::f64_to_f32(value.into_inner());
+                let value = crate::convert::f32_to_u32(value);
+                let value = crate::convert::u32_to_i32(value);
+
+                Ch32::new(crate::convert::i32_to_f32(value))
+            }
         }
     }
 }
