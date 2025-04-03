@@ -60,8 +60,87 @@ const fn normalize_ch24(mut chan: u32) -> u32 {
     chan
 }
 
-impl From<Ch8> for Ch16 {
-    fn from(value: Ch8) -> Ch16 {
-        Conversion::<Ch8, Ch16>::conv(value)
-    }
+conversion!(Ch8, Ch12);
+conversion!(Ch8, Ch16);
+conversion!(Ch8, Ch24);
+conversion!(Ch8, Ch32);
+conversion!(Ch8, Ch64);
+
+conversion!(Ch12, Ch8);
+conversion!(Ch12, Ch16);
+conversion!(Ch12, Ch24);
+conversion!(Ch12, Ch32);
+conversion!(Ch12, Ch64);
+
+conversion!(Ch16, Ch8);
+conversion!(Ch16, Ch12);
+conversion!(Ch16, Ch24);
+conversion!(Ch16, Ch32);
+conversion!(Ch16, Ch64);
+
+conversion!(Ch24, Ch8);
+conversion!(Ch24, Ch12);
+conversion!(Ch24, Ch16);
+conversion!(Ch24, Ch32);
+conversion!(Ch24, Ch64);
+
+conversion!(Ch32, Ch8);
+conversion!(Ch32, Ch12);
+conversion!(Ch32, Ch16);
+conversion!(Ch32, Ch24);
+conversion!(Ch32, Ch64);
+
+conversion!(Ch64, Ch8);
+conversion!(Ch64, Ch12);
+conversion!(Ch64, Ch16);
+conversion!(Ch64, Ch24);
+conversion!(Ch64, Ch32);
+
+#[cfg(feature = "signed")]
+mod signed {
+    use crate::signed;
+    use super::*;
+
+    conversion!(signed::Ch8, Ch12);
+    conversion!(signed::Ch8, Ch16);
+    conversion!(signed::Ch8, Ch24);
+    conversion!(signed::Ch8, Ch32);
+    conversion!(signed::Ch8, Ch64);
+
+    conversion!(signed::Ch12, Ch8);
+    conversion!(signed::Ch12, Ch16);
+    conversion!(signed::Ch12, Ch24);
+    conversion!(signed::Ch12, Ch32);
+    conversion!(signed::Ch12, Ch64);
+
+    conversion!(signed::Ch16, Ch8);
+    conversion!(signed::Ch16, Ch12);
+    conversion!(signed::Ch16, Ch24);
+    conversion!(signed::Ch16, Ch32);
+    conversion!(signed::Ch16, Ch64);
+
+    conversion!(signed::Ch24, Ch8);
+    conversion!(signed::Ch24, Ch12);
+    conversion!(signed::Ch24, Ch16);
+    conversion!(signed::Ch24, Ch32);
+    conversion!(signed::Ch24, Ch64);
+
+    conversion!(signed::Ch32, Ch8);
+    conversion!(signed::Ch32, Ch12);
+    conversion!(signed::Ch32, Ch16);
+    conversion!(signed::Ch32, Ch24);
+    conversion!(signed::Ch32, Ch64);
+
+    conversion!(signed::Ch64, Ch8);
+    conversion!(signed::Ch64, Ch12);
+    conversion!(signed::Ch64, Ch16);
+    conversion!(signed::Ch64, Ch24);
+    conversion!(signed::Ch64, Ch32);
+
+    conversion!(signed::Ch8, Ch8);
+    conversion!(signed::Ch12, Ch12);
+    conversion!(signed::Ch16, Ch16);
+    conversion!(signed::Ch24, Ch24);
+    conversion!(signed::Ch32, Ch32);
+    conversion!(signed::Ch64, Ch64);
 }

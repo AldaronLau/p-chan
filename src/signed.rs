@@ -1,5 +1,7 @@
 //! Signed channel newtypes
 
+use crate::ops::Conversion;
+
 macro_rules! midpoint {
     () => {
         /// Calculates the middle point of `self` and `rhs`.
@@ -70,4 +72,89 @@ const fn normalize_ch24(mut chan: i32) -> i32 {
     }
 
     chan
+}
+
+conversion!(Ch8, Ch12);
+conversion!(Ch8, Ch16);
+conversion!(Ch8, Ch24);
+conversion!(Ch8, Ch32);
+conversion!(Ch8, Ch64);
+
+conversion!(Ch12, Ch8);
+conversion!(Ch12, Ch16);
+conversion!(Ch12, Ch24);
+conversion!(Ch12, Ch32);
+conversion!(Ch12, Ch64);
+
+conversion!(Ch16, Ch8);
+conversion!(Ch16, Ch12);
+conversion!(Ch16, Ch24);
+conversion!(Ch16, Ch32);
+conversion!(Ch16, Ch64);
+
+conversion!(Ch24, Ch8);
+conversion!(Ch24, Ch12);
+conversion!(Ch24, Ch16);
+conversion!(Ch24, Ch32);
+conversion!(Ch24, Ch64);
+
+conversion!(Ch32, Ch8);
+conversion!(Ch32, Ch12);
+conversion!(Ch32, Ch16);
+conversion!(Ch32, Ch24);
+conversion!(Ch32, Ch64);
+
+conversion!(Ch64, Ch8);
+conversion!(Ch64, Ch12);
+conversion!(Ch64, Ch16);
+conversion!(Ch64, Ch24);
+conversion!(Ch64, Ch32);
+
+#[cfg(feature = "unsigned")]
+mod unsigned {
+    use crate::unsigned;
+    use super::*;
+
+    conversion!(unsigned::Ch8, Ch12);
+    conversion!(unsigned::Ch8, Ch16);
+    conversion!(unsigned::Ch8, Ch24);
+    conversion!(unsigned::Ch8, Ch32);
+    conversion!(unsigned::Ch8, Ch64);
+
+    conversion!(unsigned::Ch12, Ch8);
+    conversion!(unsigned::Ch12, Ch16);
+    conversion!(unsigned::Ch12, Ch24);
+    conversion!(unsigned::Ch12, Ch32);
+    conversion!(unsigned::Ch12, Ch64);
+
+    conversion!(unsigned::Ch16, Ch8);
+    conversion!(unsigned::Ch16, Ch12);
+    conversion!(unsigned::Ch16, Ch24);
+    conversion!(unsigned::Ch16, Ch32);
+    conversion!(unsigned::Ch16, Ch64);
+
+    conversion!(unsigned::Ch24, Ch8);
+    conversion!(unsigned::Ch24, Ch12);
+    conversion!(unsigned::Ch24, Ch16);
+    conversion!(unsigned::Ch24, Ch32);
+    conversion!(unsigned::Ch24, Ch64);
+
+    conversion!(unsigned::Ch32, Ch8);
+    conversion!(unsigned::Ch32, Ch12);
+    conversion!(unsigned::Ch32, Ch16);
+    conversion!(unsigned::Ch32, Ch24);
+    conversion!(unsigned::Ch32, Ch64);
+
+    conversion!(unsigned::Ch64, Ch8);
+    conversion!(unsigned::Ch64, Ch12);
+    conversion!(unsigned::Ch64, Ch16);
+    conversion!(unsigned::Ch64, Ch24);
+    conversion!(unsigned::Ch64, Ch32);
+
+    conversion!(unsigned::Ch8, Ch8);
+    conversion!(unsigned::Ch12, Ch12);
+    conversion!(unsigned::Ch16, Ch16);
+    conversion!(unsigned::Ch24, Ch24);
+    conversion!(unsigned::Ch32, Ch32);
+    conversion!(unsigned::Ch64, Ch64);
 }

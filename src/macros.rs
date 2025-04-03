@@ -439,3 +439,13 @@ macro_rules! ch_float {
         unsafe impl bytemuck::Pod for $ty {}
     };
 }
+
+macro_rules! conversion {
+    ($from:ty, $into:ty) => {
+        impl From<$from> for $into {
+            fn from(value: $from) -> $into {
+                Conversion::<$from, $into>::conv(value)
+            }
+        }
+    };
+}
