@@ -98,8 +98,8 @@ conversion!(Ch64, Ch32);
 
 #[cfg(feature = "signed")]
 mod signed {
-    use crate::signed;
     use super::*;
+    use crate::signed;
 
     conversion!(signed::Ch8, Ch12);
     conversion!(signed::Ch8, Ch16);

@@ -112,8 +112,8 @@ conversion!(Ch64, Ch32);
 
 #[cfg(feature = "unsigned")]
 mod unsigned {
-    use crate::unsigned;
     use super::*;
+    use crate::unsigned;
 
     conversion!(unsigned::Ch8, Ch12);
     conversion!(unsigned::Ch8, Ch16);
