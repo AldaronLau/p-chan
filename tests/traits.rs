@@ -1,14 +1,14 @@
 use std::{
     fmt::{Debug, Display},
+    hash::Hash,
     ops::{Add, AddAssign, Mul, MulAssign, Neg, Not, Sub, SubAssign},
 };
 
 #[test]
 fn impls_traits() {
-    // FIXME: Add `Hash`, `Ord`, `Eq`
-
     trait AllTraits:
-        Add
+        Hash
+        + Add
         + Sub
         + Mul
         + AddAssign
@@ -31,7 +31,8 @@ fn impls_traits() {
     }
 
     impl<T> AllTraits for T where
-        T: Add
+        T: Hash
+            + Add
             + Sub
             + Mul
             + AddAssign

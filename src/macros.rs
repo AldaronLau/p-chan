@@ -276,6 +276,15 @@ macro_rules! ch_float {
         #[repr(transparent)]
         pub struct $ty($p);
 
+        impl core::hash::Hash for $ty {
+            fn hash<H>(&self, state: &mut H)
+            where
+                H: core::hash::Hasher,
+            {
+                self.0.to_bits().hash(state)
+            }
+        }
+
         impl core::cmp::PartialEq for $ty {
             fn eq(&self, other: &Self) -> bool {
                 $normalize(self.into_inner()) == $normalize(other.into_inner())
